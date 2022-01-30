@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Button.css';
+import style from './Button.module.css';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 const Button = ({
@@ -14,13 +14,13 @@ const Button = ({
   if(icon === "BurgerIcon"){
     return (
       <button
-        className={className}
+        className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
         <BurgerIcon type={typeIcon ? "primary" : "secondary"}/>
-        <p className="text text_type_main-default text_color_inactive">{text}</p>
+        <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
       </button>
     )
   };
@@ -28,13 +28,13 @@ const Button = ({
   if(icon === "ListIcon"){
     return (
       <button
-        className={className}
+        className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
         <ListIcon type={typeIcon ? "primary" : "secondary"}/>
-        <p className="text text_type_main-default text_color_inactive">{text}</p>
+        <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
       </button>
     )
   };
@@ -42,13 +42,13 @@ const Button = ({
   if(icon === "ProfileIcon"){
     return (
       <button
-        className={className}
+        className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
         <ProfileIcon type={typeIcon ? "primary" : "secondary"}/>
-        <p className="text text_type_main-default text_color_inactive">{text}</p>
+        <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
       </button>
     )
   };

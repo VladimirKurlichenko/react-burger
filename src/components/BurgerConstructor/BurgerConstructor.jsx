@@ -1,5 +1,5 @@
 import React from 'react';
-import './BurgerConstructor.css';
+import style from './BurgerConstructor.module.css';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -18,8 +18,8 @@ const BurgerConstructor = ({items}) => {
     
     return (
         <>
-            <div className='constructor'>
-                <div className='ingredient mb-2 ml-6' >
+            <div className={style.constructor}>
+                <div className={`${style.ingredient} mb-2 ml-6` }>
                     <ConstructorElement
                         type='top'
                         isLocked={true}
@@ -28,13 +28,13 @@ const BurgerConstructor = ({items}) => {
                         thumbnail={bun.image_mobile}
                     />
                 </div>
-                <div className='ingredients'>
+                <div className={style.ingredients}>
                     
                     {
                         items.filter(item => item.type !== 'bun').map(item => {
                             return(
-                                <div key={item._id} className='ingredient mb-2 mt-2' >
-                                    <div className={"dragIcon"}>
+                                <div key={item._id} className={`${style.ingredient} mb-2 mt-2`} >
+                                    <div className={style.dragIcon}>
                                         <DragIcon type="primary" />
                                     </div>
                                     <ConstructorElement
@@ -47,7 +47,7 @@ const BurgerConstructor = ({items}) => {
                         })
                     }
                 </div>
-                <div className='ingredient  mb-2 mt-2 ml-6'  >
+                <div className={`${style.ingredient} mb-2 mt-2 ml-6` }  >
                     <ConstructorElement
                         type='bottom'
                         isLocked={true}
@@ -57,9 +57,9 @@ const BurgerConstructor = ({items}) => {
                     />
                 </div>
 
-                <div className='orderSection'>
-                    <div className='price'>
-                        <p className="text text_type_digits-medium">{orderCost}</p>
+                <div className={style.orderSection}>
+                    <div className={style.price}>
+                        <p className="text text_type_digits-medium mr-3">{orderCost}</p>
                         <CurrencyIcon type="primary" />
                     </div>
                     <Button type="primary" size="medium" onClick={handleModalIsOpen}>
