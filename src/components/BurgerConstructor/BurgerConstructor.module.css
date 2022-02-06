@@ -1,0 +1,43 @@
+.ingredients {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2f2f37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background-color: #545AA7;
+}
+
+.constructor {
+    width: 600px;
+    height: 60vh;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.orderSection {
+    display: flex;
+    justify-content: flex-end;
+    margin: 40px;
+}
+
+
+.price {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 40px 0 0;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+}
