@@ -1,8 +1,10 @@
 import React from 'react';
-import './Card.css';
+import style from './Card.module.css';
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../../IngredientDetails/IngredientDetails';
+import {itemsPropTypes} from '../../../utils/dataPropTypes'
+
 
 const Card = ({item}) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
@@ -11,11 +13,11 @@ const Card = ({item}) => {
 
   return (
     <>
-      <div className='cardItem' key={item._id}  onClick={handleModalIsOpen}>
+      <div className={`${style.cardItem} mb-3`} key={item._id}  onClick={handleModalIsOpen}>
         < Counter count={1} size="default" />
         <img src={item.image} alt="" />
-        <div className='priceCard'>
-            <p className="text text_type_main-default">{item.price}</p>
+        <div className={`${style.priceCard} mb-2`}>
+            <p className="text text_type_main-default mr-2">{item.price}</p>
             <CurrencyIcon type="primary" />
         </div>
         <p className="text text_type_main-default">{item.name}</p>
@@ -28,22 +30,6 @@ const Card = ({item}) => {
   );
 }
 
-Card.propTypes = {
-    item: PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number,
-    })
+Card.propTypes = itemsPropTypes;  
     
-}
-
 export default Card;

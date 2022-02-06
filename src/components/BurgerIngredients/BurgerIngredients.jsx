@@ -1,16 +1,19 @@
 import React from 'react';
-import './BurgerIngredients.css';
+import style from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from './Card/Card';
+import {Data} from "../../utils/data"
 
-const BurgerIngredients = ({items}) => {
+const BurgerIngredients = () => {
+    const {items, setItems} = React.useContext(Data);
+
     const [current, setCurrent] = React.useState('bun')
   return (
-    <div className='burgerIngredients'>
+    <div className={style.burgerIngredients}>
         <h2 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h2>
         <section>
-        <div className='tab'>
+        <div className={style.tab}>
             <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                 Булки
             </Tab>
@@ -21,24 +24,24 @@ const BurgerIngredients = ({items}) => {
                 Начинки
             </Tab>
         </div>
-        <div className='items'>
-            <div className='bun'>
+        <div className={style.items}>
+            <div className={style.bun}>
                 <h4 className="text text_type_main-medium mt-4">Булки</h4>
-                <div className='block'>
+                <div className={style.block}>
                     {items.filter(item => item.type === "bun").map(item => <Card key={item._id} item={item}/>)}
                 </div>
             </div>
 
-            <div className='sause'>
+            <div className={style.sause}>
                 <h4 className="text text_type_main-medium mt-4">Соусы</h4>
-                <div className='block'>
+                <div className={style.block}>
                     {items.filter(item => item.type === "sauce").map(item => <Card key={item._id} item={item}/>)}
                 </div>
             </div>
 
-            <div className='main'>
+            <div className={style.main}>
                 <h4 className="text text_type_main-medium mt-4">Начинки</h4>
-                <div className='block'>
+                <div className={style.block}>
                     {items.filter(item => item.type === "main").map(item => <Card key={item._id} item={item}/>)}
                 </div>
             </div>
@@ -49,8 +52,8 @@ const BurgerIngredients = ({items}) => {
   );
 }
 
-BurgerIngredients.propTypes = {
-    items: PropTypes.array.isRequired
-}
+// BurgerIngredients.propTypes = {
+//     items: PropTypes.array.isRequired
+// }
 
 export default BurgerIngredients;

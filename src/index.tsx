@@ -3,10 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
+import {Data, DataIngredients} from "./utils/data"
+
+function Main() {
+  const [items, setItems] = React.useState([]);
+  const [ingredients, setIngredients] = React.useState([]);
+  return(
+    <DataIngredients.Provider value={{ingredients, setIngredients}}>
+      <Data.Provider value={{items, setItems}}>
+      <App />
+    </Data.Provider>
+    </DataIngredients.Provider>
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Main/>
   </React.StrictMode>,
   document.getElementById('root')
 );
