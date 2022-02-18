@@ -1,8 +1,15 @@
+
+
+
 .ingredients {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 500px;
+    
 
+}
+.ingredients > *{
+    min-width: 488px;
 }
 
 .ingredients::-webkit-scrollbar {
@@ -40,4 +47,5 @@
 .ingredient {
     display: flex;
     align-items: center;
+    min-width: 600px;
 }

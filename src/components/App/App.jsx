@@ -1,60 +1,70 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import {Data, DataIngredients} from "../../utils/data"
-
+import { getIngredients } from '../../services/actions/ingredients';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { VISIBLE_ORDER_DETAILS, VISIBLE_INGREDIENT_DETAILS } from '../../services/actions/modals';
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from 'react-dnd';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 const App = () => {
-  const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const {items, setItems} = React.useContext(Data);
-  const {ingredients, setIngredients} = React.useContext(DataIngredients);
+  const dispatch = useDispatch();
 
+  const {visibleOrderDetails, visibleIngredientDetails } = useSelector(state => state.modals);
 
-  function checkResponse(result) {
-    if (result.ok) {
-      return result.json();
-    }
-    return Promise.reject(`Ошибка ${result.status}`);
-    
-  }
-  
-  const ApiUrl = "https://norma.nomoreparties.space/api/ingredients" 
+  const openModalOrderDetails = () => {
+    dispatch({ type: VISIBLE_ORDER_DETAILS, value: true })
+  };
+
+  const openModalIngredientDetails = () => {
+    dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: true })
+  };
+
+  const closeModal = () => {
+    dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: false });
+    dispatch({ type: VISIBLE_ORDER_DETAILS, value: false });
+  };
+
   React.useEffect(() => {
-    fetch(ApiUrl)
-      .then(checkResponse)
-      .then((result) => {    
-        setIsLoaded(true);
-        setItems(result.data);
-        setIngredients(result.data);
-        console.log(Data)})
-      .catch((error) => {
-        setIsLoaded(true);
-        setError(error);
-      })
-  }, [])
+    dispatch(getIngredients())
+  }, [dispatch]);
 
-  if (error) {
-    return <div>Ошибка: {error}</div>;
-  } else if (!isLoaded) {
-    return <div>Загрузка...</div>;
-  } else {
-    return (
+  return (
+    <>
       <div className={style.app}>
         <AppHeader/>
         <main className={style.main}>
+          <DndProvider backend={HTML5Backend}>
             <div className={style.burgerIngredients}>
-              <BurgerIngredients/>
-            </div>
-            <div className={style.burgerConstructor}>
-              <BurgerConstructor/>
-            </div>
+                <BurgerIngredients IngredientDetails={openModalIngredientDetails}/>
+              </div>
+
+              <div className={style.burgerConstructor}>
+                <BurgerConstructor openIngredientDetails={openModalIngredientDetails}
+                    openOrderDetails={openModalOrderDetails}/>
+              </div>
+          </DndProvider>
           </main>
       </div>
-    );
-  }
-}
+
+      {visibleOrderDetails &&
+                <Modal onClose={closeModal}>
+                    <OrderDetails />
+                </Modal>
+      }
+
+      {visibleIngredientDetails &&
+        <Modal onClose={closeModal}>
+          <IngredientDetails />
+        </Modal>
+      }
+    </>
+  );
+  };
 
 export default App;

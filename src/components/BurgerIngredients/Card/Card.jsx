@@ -2,34 +2,68 @@ import React from 'react';
 import style from './Card.module.css';
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientDetails from '../../IngredientDetails/IngredientDetails';
-import {itemsPropTypes} from '../../../utils/dataPropTypes'
+import { useSelector } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 
-const Card = ({item}) => {
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
-  const handleModalIsOpen = () => { setModalIsOpen(true) };
-  const handleModalIsClose = () => { setModalIsOpen(false) };
+export default function Card({ item, openDetails }) {
+
+  const cartIngredients = useSelector(state => state.cartIngredient.сartIngredients);
+  const buns = useSelector(state => state.cartIngredient.bunIngredients);
+  const counter = [...cartIngredients, ...buns].filter(el => el._id === item._id).length;
+
+  const [{ opacity }, ref] = useDrag({
+    type: 'ingredient',
+    item: item,
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  });
+
+  const [, bunRef] = useDrag({
+    type: 'bun',
+    item: item
+  });
 
   return (
-    <>
-      <div className={`${style.cardItem} mb-3`} key={item._id}  onClick={handleModalIsOpen}>
-        < Counter count={1} size="default" />
-        <img src={item.image} alt="" />
-        <div className={`${style.priceCard} mb-2`}>
-            <p className="text text_type_main-default mr-2">{item.price}</p>
-            <CurrencyIcon type="primary" />
-        </div>
-        <p className="text text_type_main-default">{item.name}</p>
-      </div>
-      {modalIsOpen && (
-                <IngredientDetails onClose={handleModalIsClose} item={item} />
-      )}
-    </>
+    <div ref={item.type === 'bun' ? bunRef : ref}
+      className={`${style.cardItem} pl-2 pr-2`}
+      onClick={openDetails}
+      key={item._id}
+      style={{ opacity }}>
+      
+      {
+        counter > 0 
+          ? (< Counter count={item.type === 'bun' ? counter + 1 : counter} size="default" />)
+          : ('')
+      }
 
-  );
+
+      <img className="p-2 pb-4" src={item.image} alt={item.name} />
+      <span className={style.priceCard}>
+        <p className="text text_type_digits-default mr-2">{item.price}</p>
+        <CurrencyIcon type="primary" />
+      </span>
+      <p className="text text_type_main-default pb-5 pt-5">{item.name}</p>
+    </div>
+  )
 }
 
-Card.propTypes = itemsPropTypes;  
-    
-export default Card;
+
+Card.propTypes = {
+  openDetails: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number,
+  })
+}
