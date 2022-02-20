@@ -41,7 +41,7 @@ const App = () => {
         <main className={style.main}>
           <DndProvider backend={HTML5Backend}>
             <div className={style.burgerIngredients}>
-                <BurgerIngredients IngredientDetails={openModalIngredientDetails}/>
+                <BurgerIngredients openIngredientDetails={openModalIngredientDetails}/>
               </div>
 
               <div className={style.burgerConstructor}>

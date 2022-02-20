@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import style from './OrderDetails.module.css';
-import PropTypes from 'prop-types';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrderNumber } from '../../services/actions/orderDetails';
 
-const OrderDetails = ({ onClose, orderNum }) => {
+const OrderDetails = () => {
     const dispatch = useDispatch();
     const { ingredientsIDs, orderNumber } = useSelector(state => state.orderDetails);
 
@@ -22,11 +21,6 @@ const OrderDetails = ({ onClose, orderNum }) => {
                 <p className='text text_type_main-default text_color_inactive pb-10 pt-2'>Дождитесь готовности на орбитальной станции</p>
             </div>
     )
-};
-
-OrderDetails.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    orderNum: PropTypes.string.isRequired
 };
 
 export default OrderDetails;

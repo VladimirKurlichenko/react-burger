@@ -6,8 +6,7 @@ import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const modalRoot = document.getElementById("portal");
 
-const Modal = (props) => {
-    const { children, onClose } = props;
+const Modal = ({ children, onClose }) => {
 
      React.useEffect(() => {
         const closeModal = (evt) => {

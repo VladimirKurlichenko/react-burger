@@ -6,12 +6,11 @@ import Card from './Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
 
-const BurgerIngredients = ({IngredientDetails}) => {
+const BurgerIngredients = ({openIngredientDetails}) => {
 
     const dispatch = useDispatch();
 
     const {ingredientsData} = useSelector(state => state.ingredients)
-    console.log(ingredientsData);
     const [current, setCurrent] = React.useState('bun');
 
     const refBun = useRef(null);
@@ -40,13 +39,13 @@ const BurgerIngredients = ({IngredientDetails}) => {
     const ingredientsList = (type) => {
         return ingredientsData
             .filter(ingredient => ingredient.type === type)
-            .map((ingredient, index) => {
+            .map((ingredient) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
-                    IngredientDetails();
+                    openIngredientDetails();
                     console.log("Test")
                 }
-                return (<Card item={ingredient} key={index} openDetails={openDetails} />)
+                return (<Card item={ingredient} key={ingredient._id} openDetails={openDetails} />)
             });
     };
 
