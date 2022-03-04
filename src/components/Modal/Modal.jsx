@@ -14,18 +14,18 @@ const Modal = ({ children, onClose }) => {
         }
         window.addEventListener('keydown', closeModal)
       return () => window.removeEventListener('keydown', closeModal)
-    },[])
+    },[onClose])
 
     return (
         ReactDOM.createPortal(
             <>
+                <ModalOverlay onClose={onClose}/>
                 <div className={style.modal}>
                     <span onClick={onClose} className={`${style.modalCloseIcon} mt-4 mr-4`}>
                         <CloseIcon type="primary" />
                     </span>
                     {children}
                 </div>
-                <ModalOverlay onClose={onClose}/>
             </>, modalRoot
         )
     );

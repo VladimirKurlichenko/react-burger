@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, NavLink } from 'react-router-dom';
 
 const Button = ({
   icon, text, onClick, className,
@@ -11,9 +12,12 @@ const Button = ({
     return onClick(e);
   };
 
+  // <NavLink to="/about">About</NavLink>
+
   if(icon === "BurgerIcon"){
     return (
-      <button
+      <NavLink
+        to="/"
         className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
@@ -21,13 +25,14 @@ const Button = ({
       >
         <BurgerIcon type={typeIcon ? "primary" : "secondary"}/>
         <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
-      </button>
+      </NavLink>
     )
   };
 
   if(icon === "ListIcon"){
     return (
-      <button
+      <NavLink
+        to="/"
         className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
@@ -35,13 +40,14 @@ const Button = ({
       >
         <ListIcon type={typeIcon ? "primary" : "secondary"}/>
         <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
-      </button>
+      </NavLink>
     )
   };
 
   if(icon === "ProfileIcon"){
     return (
-      <button
+      <NavLink
+      to="/profile"
         className={style.btn}
         onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
@@ -49,7 +55,7 @@ const Button = ({
       >
         <ProfileIcon type={typeIcon ? "primary" : "secondary"}/>
         <p className="text text_type_main-default text_color_inactive ml-2">{text}</p>
-      </button>
+      </NavLink>
     )
   };
 

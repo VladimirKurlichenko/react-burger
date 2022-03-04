@@ -1,16 +1,20 @@
 import style from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ADD_CART_INGREDIENT, ADD_CART_INGREDIENT_BUN, DELETE_CART_INGREDIENT, MOVE_CART_INGREDIENT} from '../../services/actions/cartIngredient';
+import { VISIBLE_ORDER_DETAILS} from '../../services/actions/modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import { GET_ORDER_INGREDIENTS_ID } from '../../services/actions/orderDetails';
 import PropTypes from 'prop-types';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 
 export default function BurgerConstructor({ openOrderDetails }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const items = useSelector(state => state.cartIngredient.сartIngredients);
   const bun = useSelector(state => state.cartIngredient.bunIngredients[0]);
+  const user = useSelector(store => store.user);
 
   const orderCost = bun ? [bun, bun, ...items].reduce((acc, ing) => acc += ing.price, 0)
     : items.reduce((acc, ing) => acc += ing.price, 0);
@@ -18,10 +22,17 @@ export default function BurgerConstructor({ openOrderDetails }) {
   const ingredientsIDs = items.map(item => item._id);
 
   const orderBurger = () => {
-    if (bun && items.length !== 0) {
-      openOrderDetails();
-      dispatch({ type: GET_ORDER_INGREDIENTS_ID, ingredientsIDs: ingredientsIDs })
+    if(user.username){
+      if (bun && items.length !== 0) {
+        openOrderDetails();
+        dispatch({ type: GET_ORDER_INGREDIENTS_ID, ingredientsIDs: ingredientsIDs })
+      }
     }
+    else{
+      openOrderDetails();
+      history.replace({ pathname: '/login' });
+    }
+   
   }
 
   const deleteIngredient = (index) => {

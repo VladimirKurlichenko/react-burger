@@ -5,10 +5,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from './Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const BurgerIngredients = ({openIngredientDetails}) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
 
     const {ingredientsData} = useSelector(state => state.ingredients)
     const [current, setCurrent] = React.useState('bun');
@@ -43,6 +46,7 @@ const BurgerIngredients = ({openIngredientDetails}) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
                     openIngredientDetails();
+                    history.push({ pathname: `/ingredients/${ingredient._id}`, state: { background: location } })
                     console.log("Test")
                 }
                 return (<Card item={ingredient} key={ingredient._id} openDetails={openDetails} />)

@@ -1,9 +1,26 @@
 import style from './IngredientDetails.module.css';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const IngredientDetails = () => {
 
-    const ingredient = useSelector(state => state.ingredientDetails.activeIngredient);
+    const location = useLocation();
+    const [ingredient, setIngredient] = useState({});
+    const ingredientID = location.pathname.split('/')[2];
+
+    const { ingredientsData, isLoading } = useSelector(store => store.ingredients);
+    const activeIngredient = useSelector(store => store.ingredientDetails.activeIngredient);
+
+    useEffect(() => {
+        if (Object.keys(activeIngredient).length === 0 && ingredientsData.length !== 0) {
+            return setIngredient(ingredientsData.find(ing => ing._id === ingredientID));
+        }
+        setIngredient(activeIngredient);
+    }, [ingredientsData, activeIngredient, ingredientID]);
+
+    console.log(ingredient, "ingredient")
 
     return (
             <div className={`${style.cardIngredient} pt-10 pb-10`}>
@@ -29,7 +46,6 @@ const IngredientDetails = () => {
                         <p className='text text_type_main-default text_color_inactive mb-2'>Углеводы, г</p>
                         <p className='text text_type_digits-default text_color_inactive'>{ingredient.carbohydrates}</p>
                     </li>
-
                 </ul>
             </div>
     )

@@ -1,23 +1,18 @@
 .cardIngredient{
-    width: 100%;
     display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    flex-direction: column;
     width: 100%;
-    
   }
-
-.headerModal {
-    align-self: flex-start;
-}
 
 .info {
    
-    margin: auto;
-    list-style: none;
     display: flex;
+    margin: auto;
+
     text-align: center;
+    list-style: none;
     padding: 0;
     
 }
