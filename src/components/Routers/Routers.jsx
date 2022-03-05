@@ -10,7 +10,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { Route, Switch, useLocation, useHistory, matchPath, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { ProtectedRouteResetPassword } from '../ProtectedRouteResetPassword/ProtectedRouteResetPassword';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/actions/ingredients';
 

@@ -1,6 +1,6 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './ResetPassword.module.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { resetPassword } from '../../services/actions/auth';
@@ -10,10 +10,17 @@ export default function ResetPassword() {
     const [valueForm, setValueForm] = useState({ password: '', token: '' })
     const history = useHistory();
     const dispatch = useDispatch();
+    const isPasswordForgotten = useSelector(store => store.forgotPassword.isPasswordForgotten);
 
     const onFormChange = (e) => {
         console.log(e.target.value, "e");
         setValueForm(e.target.value);
+    }
+
+    if (!isPasswordForgotten) {
+        return (
+            <Redirect to={{ pathname: '/' }} />
+        )
     }
 
     const onFormSubmit = (e) => {

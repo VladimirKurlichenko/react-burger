@@ -1,26 +1,30 @@
 import {
-    PASSWORD_FORGOT_SUCCESS,
-    PASSWORD_FORGOT_ERROR
+  PASSWORD_FORGOT,
+  PASSWORD_FORGOT_RESTORE
 } from "../actions/forgotPassword"
 
 const initialState = {
-    isPasswordForgotten: false,
+  test: 'test',
+  isPasswordForgotten: false,
 }
 
-export const forgotPasswordReducer = (state = initialState, { type }) => {
-    switch (type) {
-      case PASSWORD_FORGOT_SUCCESS: {
-        return {
-          isPasswordForgotten: true
-        }
+export const forgotPasswordReducer = (state = initialState, action) => {
+  console.log(action);
+  switch (action.type) {
+      case PASSWORD_FORGOT: {
+          return {
+              ...state, 
+              isPasswordForgotten: true
+          }
       }
-      case PASSWORD_FORGOT_ERROR: {
-        return {
-          isPasswordForgotten: false
-        }
+      case PASSWORD_FORGOT_RESTORE: {
+          return {
+              ...state, 
+              isPasswordForgotten: false
+          }
       }
       default: {
-        return state;
+          return state;
       }
-    }
   }
+}

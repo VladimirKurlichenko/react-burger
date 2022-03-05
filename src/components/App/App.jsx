@@ -4,12 +4,10 @@ import Routes from '../Routers/Routers';
 
 const App = () => {
   return (
-    <>
       <Router>
           <AppHeader />
           <Routes />
       </Router>
-    </>
   );
   };
 

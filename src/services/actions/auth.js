@@ -4,6 +4,28 @@ import {
     REGISTER_POST_URL, LOGIN_POST_URL, LOGOUT_POST_URL,
     GET_USER_DATA_URL, PATCH_USER_DATA_URL, PASSWORD_FORGET_POST_URL, PASSWORD_RESET_POST_URL
 } from '../../utils/api-urls';
+import {USER_SET_CREDENTIALS, USER_LOGOUT} from '../actions/user';
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST';
+export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
+export const GET_USER_DATA_FAILED = 'GET_USER_DATA_FAILED';
+export const PATCH_USER_DATA_SUCCESS = 'PATCH_USER_DATA_SUCCESS';
+export const PATCH_USER_DATA_FAILED = 'PATCH_USER_DATA_FAILED';
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED';
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 
 const otherReqOpt = {
     mode: 'cors',
@@ -15,7 +37,7 @@ const otherReqOpt = {
 
 export function login({ email, password }) {
     return async function (dispatch) {
-        dispatch({ type: 'LOGIN_REQUEST' })
+        dispatch({ type: LOGIN_REQUEST })
 
         const requestOptions = {
             method: 'POST',
@@ -30,12 +52,12 @@ export function login({ email, password }) {
             .then(data => {
                 setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                dispatch({ type: 'USER_SET_CREDENTIALS', user: data.user });
-                dispatch({ type: 'LOGIN_SUCCESS' });
+                dispatch({ type: USER_SET_CREDENTIALS, user: data.user });
+                dispatch({ type: LOGIN_SUCCESS });
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'LOGIN_FAILED' })
+                dispatch({ type: LOGIN_FAILED })
             });
 
     }
@@ -43,7 +65,7 @@ export function login({ email, password }) {
 
 export function register({ username, email, password }) {
     return async function (dispatch) {
-        dispatch({ type: 'REGISTER_REQUEST' });
+        dispatch({ type: REGISTER_REQUEST });
 
         const requestOptions = {
             method: 'POST',
@@ -58,19 +80,19 @@ export function register({ username, email, password }) {
             .then(data => {
                 setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                dispatch({ type: 'USER_SET_CREDENTIALS', user: data.user });
-                dispatch({ type: 'REGISTER_SUCCESS' });
+                dispatch({ type: USER_SET_CREDENTIALS, user: data.user });
+                dispatch({ type: REGISTER_SUCCESS });
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'REGISTER_FAILED' })
+                dispatch({ type: REGISTER_FAILED })
             });
     }
 }
 
 export function logout() {
     return async function (dispatch) {
-        dispatch({ type: 'LOGOUT_REQUEST' });
+        dispatch({ type: LOGOUT_REQUEST });
 
         const requestOptions = {
             method: 'POST',
@@ -83,15 +105,15 @@ export function logout() {
         await fetch(LOGOUT_POST_URL, requestOptions)
             .then(res => checkResponse(res))
             .then(data => {
-                dispatch({ type: 'USER_LOGOUT' });
+                dispatch({ type: USER_LOGOUT });
                 deleteCookie('accessToken');
                 localStorage.removeItem('refreshToken');
                 console.log(localStorage.getItem('refreshToken'));
-                dispatch({ type: 'LOGOUT_SUCCESS' })
+                dispatch({ type: LOGOUT_SUCCESS })
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'LOGOUT_FAILED' })
+                dispatch({ type: LOGOUT_FAILED })
             }
             );
     }
@@ -101,7 +123,7 @@ export function getUserData() {
     console.log('token IS: ')
     console.log(localStorage.getItem('refreshToken'))
     return async function (dispatch) {
-        dispatch({ type: 'GET_USER_DATA_REQUEST' });
+        dispatch({ type: GET_USER_DATA_REQUEST });
 
         const requestOptions = {
             method: 'GET',
@@ -123,12 +145,12 @@ export function getUserData() {
         })
             .then(data => {
                 console.log(data);
-                dispatch({ type: 'USER_SET_CREDENTIALS', user: data.user });
-                dispatch({ type: 'GET_USER_DATA_SUCCESS' });
+                dispatch({ type: USER_SET_CREDENTIALS, user: data.user });
+                dispatch({ type: GET_USER_DATA_SUCCESS });
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'GET_USER_DATA_FAILED' });
+                dispatch({ type: GET_USER_DATA_FAILED });
             })
     }
 }
@@ -149,11 +171,11 @@ export function patchUserData({ email, username, password }) {
         await fetchWithRefresh(PATCH_USER_DATA_URL, requestOptions)
             .then(data => {
                 console.log(`response is successful`)
-                dispatch({ type: 'PATCH_USER_DATA_SUCCESS', user: data.user });
+                dispatch({ type: PATCH_USER_DATA_SUCCESS, user: data.user });
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'PATCH_USER_DATA_FAILED' });
+                dispatch({ type: PATCH_USER_DATA_FAILED });
             }
             );
     }
@@ -161,7 +183,7 @@ export function patchUserData({ email, username, password }) {
 
 export function forgotPassword({ email }) {
     return async function (dispatch) {
-        dispatch({ type: 'FORGOT_PASSWORD_REQUEST' })
+        dispatch({ type: FORGOT_PASSWORD_REQUEST })
 
         const requestOptions = {
             method: 'POST',
@@ -175,19 +197,19 @@ export function forgotPassword({ email }) {
             .then(res => checkResponse(res))
             .then(data => {
                 console.log(data);
-                dispatch({ type: 'FORGOT_PASSWORD_SUCCESS' })
+                dispatch({ type: FORGOT_PASSWORD_SUCCESS })
 
             })
             .catch(e => {
                 console.log(e);
-                dispatch({ type: 'FORGOT_PASSWORD_FAILED' })
+                dispatch({ type: FORGOT_PASSWORD_FAILED })
             })
     }
 }
 
 export function resetPassword({ password, token }) {
     return async function (dispatch) {
-        dispatch({ type: 'RESET_PASSWORD_REQUEST' });
+        dispatch({ type: RESET_PASSWORD_REQUEST });
         console.log(PASSWORD_RESET_POST_URL);
 
         const requestOptions = {
@@ -202,12 +224,12 @@ export function resetPassword({ password, token }) {
             .then(res => checkResponse(res))
             .then(data => {
                 console.log(data);
-                dispatch({ type: 'RESET_PASSWORD_SUCCESS' });
+                dispatch({ type: RESET_PASSWORD_SUCCESS });
 
             })
             .catch(e => {
                 console.error(e);
-                dispatch({ type: 'RESET_PASSWORD_FAILED' });
+                dispatch({ type: RESET_PASSWORD_FAILED });
             })
     }
 }

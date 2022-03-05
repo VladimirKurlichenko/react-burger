@@ -4,6 +4,7 @@ import style from './ForgotPassword.module.css';
 import {Link, useHistory} from 'react-router-dom';
 import { forgotPassword } from '../../services/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
+import { PASSWORD_FORGOT } from '../../services/actions/forgotPassword';
 
 export default function ForgotPassword() {
 
@@ -19,6 +20,7 @@ export default function ForgotPassword() {
     const onFormSubmit = (e) => {
         e.preventDefault();
         console.log(valueForm, "form");
+        dispatch({ type: PASSWORD_FORGOT });
         dispatch(forgotPassword(valueForm));
         history.replace({ pathname: '/reset-password' });
     }

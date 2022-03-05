@@ -1,6 +1,6 @@
-import { ApiOrderUrl } from '../../utils/constants';
+import { POST_ORDER_URL } from '../../utils/api-urls';
 import { CLEAR_CART_INGREDIENT } from './cartIngredient';
-
+import { checkResponse } from '../../utils/helpers';
 export const GET_ORDER_NUMBER_REQUEST = "GET_ORDER_NUMBER_REQUEST";
 export const GET_ORDER_NUMBER_SUCCESS = "GET_ORDER_NUMBER_SUCCESS";
 export const GET_ORDER_NUMBER_FAILED = "GET_ORDER_NUMBER_FAILED";
@@ -10,16 +10,11 @@ export const getOrderNumber = (ingredientsIDs) => {
   return function(dispatch) {
     dispatch({ type: GET_ORDER_NUMBER_REQUEST });
 
-    fetch(ApiOrderUrl, {
+    fetch(POST_ORDER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({"ingredients": ingredientsIDs})
-    }).then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-        })
+    }).then(res => checkResponse(res))
         .then(res => {
           dispatch({ type: GET_ORDER_NUMBER_SUCCESS, orderNumber: res.order.number });
           dispatch({ type: CLEAR_CART_INGREDIENT })

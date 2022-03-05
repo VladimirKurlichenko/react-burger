@@ -7,11 +7,12 @@ import { useDrop, useDrag } from 'react-dnd';
 import { GET_ORDER_INGREDIENTS_ID } from '../../services/actions/orderDetails';
 import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function BurgerConstructor({ openOrderDetails }) {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  console.log(uuidv4(), "uuidv4");
   const items = useSelector(state => state.cartIngredient.сartIngredients);
   const bun = useSelector(state => state.cartIngredient.bunIngredients[0]);
   const user = useSelector(store => store.user);
@@ -123,7 +124,7 @@ export default function BurgerConstructor({ openOrderDetails }) {
         <div className={style.ingredients} ref={dropTarget} >
           {items.map((ingredient, index) => {
             return (
-              <div className={`${style.ingredient} mb-2 mt-2`} key={`${ingredient._id}${index}`} >
+              <div className={`${style.ingredient} mb-2 mt-2`} key={uuidv4()} >
                 <ConstructorElementMiddle item={ingredient} index={index} />
               </div>
             )
