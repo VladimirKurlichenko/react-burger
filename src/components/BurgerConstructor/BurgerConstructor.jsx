@@ -81,6 +81,8 @@ export default function BurgerConstructor({ openOrderDetails }) {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(ingredients) {
+      ingredients['key'] = uuidv4();
+      console.log(ingredients, "ingredients")
       dispatch({ type: ADD_CART_INGREDIENT, ingredients: ingredients })
     }
   });
@@ -88,6 +90,8 @@ export default function BurgerConstructor({ openOrderDetails }) {
   const [, bunDropTop] = useDrop({
     accept: 'bun',
     drop(ingredients) {
+      ingredients['key'] = uuidv4();
+      console.log(ingredients, "ingredients_bun")
       dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients })
     }
   });
@@ -95,6 +99,8 @@ export default function BurgerConstructor({ openOrderDetails }) {
   const [, bunDropBottom] = useDrop({
     accept: 'bun',
     drop(ingredients) {
+      ingredients['key'] = uuidv4();
+      console.log(ingredients, "ingredients_bun")
       dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients })
     }
   });
@@ -124,7 +130,7 @@ export default function BurgerConstructor({ openOrderDetails }) {
         <div className={style.ingredients} ref={dropTarget} >
           {items.map((ingredient, index) => {
             return (
-              <div className={`${style.ingredient} mb-2 mt-2`} key={uuidv4()} >
+              <div className={`${style.ingredient} mb-2 mt-2`} key={ingredient.key} >
                 <ConstructorElementMiddle item={ingredient} index={index} />
               </div>
             )
