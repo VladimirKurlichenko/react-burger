@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from 'uuid';
 export default function BurgerConstructor({ openOrderDetails }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(uuidv4(), "uuidv4");
   const items = useSelector(state => state.cartIngredient.сartIngredients);
   const bun = useSelector(state => state.cartIngredient.bunIngredients[0]);
   const user = useSelector(store => store.user);
@@ -81,27 +80,21 @@ export default function BurgerConstructor({ openOrderDetails }) {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(ingredients) {
-      ingredients['key'] = uuidv4();
-      console.log(ingredients, "ingredients")
-      dispatch({ type: ADD_CART_INGREDIENT, ingredients: ingredients })
+      dispatch({ type: ADD_CART_INGREDIENT, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
 
   const [, bunDropTop] = useDrop({
     accept: 'bun',
     drop(ingredients) {
-      ingredients['key'] = uuidv4();
-      console.log(ingredients, "ingredients_bun")
-      dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients })
+      dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
 
   const [, bunDropBottom] = useDrop({
     accept: 'bun',
     drop(ingredients) {
-      ingredients['key'] = uuidv4();
-      console.log(ingredients, "ingredients_bun")
-      dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients })
+      dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
 
