@@ -8,13 +8,10 @@ import {orderDetailsReducer } from './orderDetails'
 import { forgotPasswordReducer } from './forgotPassword';
 import { resetPasswordReducer } from './resetPassword';
 import { userReducer } from './user';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeWithDevTools(applyMiddleware( thunk ));
 
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -28,3 +25,4 @@ const rootReducer = combineReducers({
 })
 
 export const store = createStore(rootReducer, enhancer);
+export type RootState = ReturnType<typeof rootReducer>

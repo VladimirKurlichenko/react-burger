@@ -1,25 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { TButtonProps } from '../../../types/types';
 
-const Button = ({
-  icon, text, onClick, className,
-}) => {
-  const [typeIcon, setTypeIcon] = React.useState(false);
-  const onClickAction = e => {
-    return onClick(e);
-  };
 
-  // <NavLink to="/about">About</NavLink>
+const Button = ({icon, text} : TButtonProps) => {
+  const [typeIcon, setTypeIcon] = React.useState<boolean>(false);
 
   if(icon === "BurgerIcon"){
     return (
       <NavLink
         to="/"
         className={style.btn}
-        onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
@@ -34,7 +27,6 @@ const Button = ({
       <NavLink
         to="/"
         className={style.btn}
-        onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
@@ -49,7 +41,6 @@ const Button = ({
       <NavLink
       to="/profile"
         className={style.btn}
-        onClick={onClickAction}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
       >
@@ -64,13 +55,6 @@ const Button = ({
   );
 
 
-};
-
-Button.propTypes = {
-  icon: PropTypes.string,
-  text: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
 };
 
 export default Button;

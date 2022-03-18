@@ -1,25 +1,31 @@
 import style from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ADD_CART_INGREDIENT, ADD_CART_INGREDIENT_BUN, DELETE_CART_INGREDIENT, MOVE_CART_INGREDIENT} from '../../services/actions/cartIngredient';
-import { VISIBLE_ORDER_DETAILS} from '../../services/actions/modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import { GET_ORDER_INGREDIENTS_ID } from '../../services/actions/orderDetails';
 import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { TIngredient, TIngredientsIDs, TBurgerConstructorProps } from '../../types/types';
+import {useTypedSelector} from '../../core/hooks/useTypedSelector'
 
-export default function BurgerConstructor({ openOrderDetails }) {
+interface IConstructorElementMiddleProps {
+  item: TIngredient; 
+  index: number;
+}
+
+export default function BurgerConstructor({ openOrderDetails }: TBurgerConstructorProps) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const items = useSelector(state => state.cartIngredient.сartIngredients);
-  const bun = useSelector(state => state.cartIngredient.bunIngredients[0]);
-  const user = useSelector(store => store.user);
+  const items = useTypedSelector(state => state.cartIngredient.сartIngredients);
+  const bun = useTypedSelector(state => state.cartIngredient.bunIngredients[0]);
+  const user = useTypedSelector(store => store.user);
 
   const orderCost = bun ? [bun, bun, ...items].reduce((acc, ing) => acc += ing.price, 0)
     : items.reduce((acc, ing) => acc += ing.price, 0);
 
-  const ingredientsIDs = items.map(item => item._id);
+  const ingredientsIDs: TIngredientsIDs = items.map(item => item._id);
 
   const orderBurger = () => {
     if(user.username){
@@ -35,11 +41,11 @@ export default function BurgerConstructor({ openOrderDetails }) {
    
   }
 
-  const deleteIngredient = (index) => {
+  const deleteIngredient = (index: number) => {
     dispatch({ type: DELETE_CART_INGREDIENT, ingredients: index })
   }
 
-  const ConstructorElementMiddle = ({ item, index }) => {
+  const ConstructorElementMiddle = ({ item, index }: IConstructorElementMiddleProps) => {
     const [{ opacity }, dragRef] = useDrag({
       type: 'move',
       item: () => {
@@ -56,7 +62,7 @@ export default function BurgerConstructor({ openOrderDetails }) {
         dispatch({ type: MOVE_CART_INGREDIENT, ingredients, dropIndex: index })
       },
       collect: monitor => ({
-        padding: monitor.isOver()
+        padding: monitor.isOver()? 30 : 0
       })
     });
 
@@ -79,21 +85,21 @@ export default function BurgerConstructor({ openOrderDetails }) {
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(ingredients) {
+    drop(ingredients: TIngredient) {
       dispatch({ type: ADD_CART_INGREDIENT, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
 
   const [, bunDropTop] = useDrop({
     accept: 'bun',
-    drop(ingredients) {
+    drop(ingredients: TIngredient) {
       dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
 
   const [, bunDropBottom] = useDrop({
     accept: 'bun',
-    drop(ingredients) {
+    drop(ingredients: TIngredient) {
       dispatch({ type: ADD_CART_INGREDIENT_BUN, ingredients: {...ingredients, key: uuidv4()} })
     }
   });
@@ -113,15 +119,19 @@ export default function BurgerConstructor({ openOrderDetails }) {
             </div>
           ) : (
             <div ref={bunDropTop} className={`${style.ingredient} mb-2 mt-2 ml-6` }>
-              <ConstructorElement type='top'
+              <ConstructorElement 
+                type='top'
                 isLocked={true}
+                text=''
+                thumbnail=''
+                price={0}
               />
             </div>
           )
         }
 
         <div className={style.ingredients} ref={dropTarget} >
-          {items.map((ingredient, index) => {
+          {items.map((ingredient: TIngredient, index: number) => {
             return (
               <div className={`${style.ingredient} mb-2 mt-2`} key={ingredient.key} >
                 <ConstructorElementMiddle item={ingredient} index={index} />
@@ -143,8 +153,12 @@ export default function BurgerConstructor({ openOrderDetails }) {
             </div>
           ) : (
             <div ref={bunDropBottom} className={`${style.ingredient} mb-2 mt-2 ml-6` }>
-              <ConstructorElement type='bottom'
+              <ConstructorElement
+                type='bottom'
                 isLocked={true}
+                text=''
+                thumbnail=''
+                price={0}
               />
             </div>
           )
