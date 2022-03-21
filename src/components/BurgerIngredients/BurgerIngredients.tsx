@@ -6,43 +6,47 @@ import Card from './Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
 import { useHistory, useLocation } from 'react-router-dom';
+import { TIngredient} from '../../types/types';
 
-const BurgerIngredients = ({openIngredientDetails}) => {
+interface IBurgerIngredients {
+    openIngredientDetails: () => void;
+  }
+
+const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    const {ingredientsData} = useSelector(state => state.ingredients)
-    const [current, setCurrent] = React.useState('bun');
+    const {ingredientsData} = useSelector((state: any) => state.ingredients)
+    const [current, setCurrent] = React.useState<string>('bun');
 
-    const refBun = useRef(null);
-    const refSauce = useRef(null);
-    const refMain = useRef(null);
+    const refBun = useRef<null | HTMLDivElement>(null); 
+    const refSauce = useRef<null | HTMLDivElement>(null); 
+    const refMain = useRef<null | HTMLDivElement>(null); 
 
-    const handleScroll = (e) => {
+    const handleScroll = (e: string) => {
         setCurrent(e);
-        if (e === "bun") {refBun.current.scrollIntoView({ behavior: 'smooth' })};
-        if (e === "sauce") {refSauce.current.scrollIntoView({ behavior: 'smooth' })};
-        if (e === "main") {refMain.current.scrollIntoView({ behavior: 'smooth' })};
+        if (e === "bun") {refBun.current?.scrollIntoView({ behavior: 'smooth' })};
+        if (e === "sauce") {refSauce.current?.scrollIntoView({ behavior: 'smooth' })};
+        if (e === "main") {refMain.current?.scrollIntoView({ behavior: 'smooth' })};
     };
+    const handleActiveTab = (e: React.SyntheticEvent<HTMLDivElement>) => {
+        const scrollTop = e.currentTarget.scrollTop;
 
-    const handleActiveTab = (e) => {
-        const scrollTop = e.target.scrollTop;
-
-        const bunTop = refBun.current.getBoundingClientRect().top;
-        const sauceTop = refSauce.current.getBoundingClientRect().top;
-        const mainTop = refMain.current.getBoundingClientRect().top;
+        const bunTop = refBun.current?.getBoundingClientRect().top as number;
+        const sauceTop = refSauce.current?.getBoundingClientRect().top as number;
+        const mainTop = refMain.current?.getBoundingClientRect().top as number;
 
         if (scrollTop < bunTop) setCurrent('bun');
         if (scrollTop > bunTop && scrollTop < sauceTop) setCurrent('sauce');
         if (scrollTop > mainTop) setCurrent('main');
     }
 
-    const ingredientsList = (type) => {
+    const ingredientsList = (type: 'bun' | 'sauce' | 'main') => {
         return ingredientsData
-            .filter(ingredient => ingredient.type === type)
-            .map((ingredient) => {
+            .filter((ingredient: TIngredient) => ingredient.type === type)
+            .map((ingredient: TIngredient) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
                     openIngredientDetails();

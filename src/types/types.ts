@@ -24,3 +24,20 @@ export type TIngredient = {
     }
 
 export type TIngredientsIDs = Array<string>;
+
+
+export type TOrder = {
+    status: string;
+    name: string;
+    number: string;
+    createdAt: Date;
+    ingredients: Array<string>;
+}
+
+export type TRequestOptions = {
+    method: string;
+    headers: {
+        [header: string]: string;
+    };
+    body?: string;
+}

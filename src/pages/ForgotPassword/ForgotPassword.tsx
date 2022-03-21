@@ -12,12 +12,13 @@ export default function ForgotPassword() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const onFormChange = (e) => {
-        console.log(e.target.value, "e");
-        setValueForm(e.target.value);
+    const onFormChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const formValue = e.currentTarget.value;
+        const formName = e.currentTarget.name;
+        setValueForm(prev => ({...prev, [formName]: formValue }))
     }
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         console.log(valueForm, "form");
         dispatch({ type: PASSWORD_FORGOT });
@@ -40,6 +41,7 @@ export default function ForgotPassword() {
                     placeholder={'Укажите e-mail'}
                     name={'email'}
                     onChange={onFormChange}
+                    value={valueForm.email}
                     error={false}
                     errorText={'Ошибка'}
                     size={'default'}

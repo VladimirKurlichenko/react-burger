@@ -8,24 +8,28 @@ import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientsIDs, TBurgerConstructorProps } from '../../types/types';
-import {useTypedSelector} from '../../core/hooks/useTypedSelector'
 
 interface IConstructorElementMiddleProps {
   item: TIngredient; 
   index: number;
 }
 
+interface IOrderCost {
+  acc: number; 
+  ing: TIngredient;
+}
+
 export default function BurgerConstructor({ openOrderDetails }: TBurgerConstructorProps) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const items = useTypedSelector(state => state.cartIngredient.сartIngredients);
-  const bun = useTypedSelector(state => state.cartIngredient.bunIngredients[0]);
-  const user = useTypedSelector(store => store.user);
+  const items = useSelector((state: any) => state.cartIngredient.сartIngredients);
+  const bun = useSelector((state: any) => state.cartIngredient.bunIngredients[0]);
+  const user = useSelector((state: any) => state.user);
 
   const orderCost = bun ? [bun, bun, ...items].reduce((acc, ing) => acc += ing.price, 0)
-    : items.reduce((acc, ing) => acc += ing.price, 0);
+    : items.reduce((acc : number, ing : TIngredient)=> acc += ing.price, 0);
 
-  const ingredientsIDs: TIngredientsIDs = items.map(item => item._id);
+  const ingredientsIDs: TIngredientsIDs = items.map((item : any)=> item._id);
 
   const orderBurger = () => {
     if(user.username){

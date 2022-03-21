@@ -7,7 +7,7 @@ import { logout, patchUserData } from '../../services/actions/auth';
 
 export default function Profile() {
     const dispatch = useDispatch();
-    const user = useSelector(store => store.user);
+    const user = useSelector((store: any) => store.user);
 
     const [form, setForm] = useState({ username: user.username, email: user.email, password: '' });
 
@@ -15,14 +15,15 @@ export default function Profile() {
         setForm({ ...form, username: user.name, email: user.email, password: '' });
     }
 
-    const mainRef = useRef();
+    const mainRef = useRef<HTMLDivElement>(null);
 
-    const onChange = (e) => {
-        console.log(e.target.name, e.target.value);
-        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const formValue = e.currentTarget.value;
+        const formName = e.currentTarget.name;
+        setForm(prev => ({ ...prev, [formName]: formValue }))
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.SyntheticEvent & any) => {
         e.preventDefault();
         console.log("work")
         console.log(e.nativeEvent.submitter.name)
@@ -105,13 +106,13 @@ export default function Profile() {
 
                     <div className={style.formChild}>
                         <Button
-                            type="secondary" size="medium" value="cancel" name="cancel"
+                            type="secondary" size="medium" name="cancel"
                         >
                             Отмена
                         </Button>
 
                         <Button
-                            type="primary" size="medium" value="update" name="update"
+                            type="primary" size="medium" name="update"
                         >
                             Сохранить
                         </Button>

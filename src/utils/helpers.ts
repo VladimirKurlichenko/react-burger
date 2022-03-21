@@ -1,7 +1,8 @@
 import { TOKEN_REFRESH_POST_URL } from './api-urls';
 import { setCookie, getCookie, deleteCookie } from './cookies';
+import { TRequestOptions } from '../types/types';
 
-export const checkResponse = res => {
+export const checkResponse = (res: Response) => {
     if (res.ok) {
         return res.json();
     }
@@ -32,7 +33,7 @@ export const refreshToken = async () => {
     }
 }
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url: string, options: TRequestOptions) => {
     console.log('start fetch with refresh')
     console.log(options);
     try {

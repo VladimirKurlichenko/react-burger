@@ -1,15 +1,19 @@
 import React from 'react';
 import style from './Card.module.css';
-import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
+import { TIngredient } from '../../../types/types';
 
+type TCardProps = {
+  item: TIngredient;
+  openDetails: () => void;
+}
 
-export default function Card({ item, openDetails }) {
+export default function Card({ item, openDetails }: TCardProps) {
 
-  const cartIngredients = useSelector(state => state.cartIngredient.сartIngredients);
-  const buns = useSelector(state => state.cartIngredient.bunIngredients);
+  const cartIngredients = useSelector((state: any) => state.cartIngredient.сartIngredients);
+  const buns = useSelector((state: any) => state.cartIngredient.bunIngredients);
   const counter = [...cartIngredients, ...buns].filter(el => el._id === item._id).length;
 
   const [{ opacity }, ref] = useDrag({
@@ -47,23 +51,4 @@ export default function Card({ item, openDetails }) {
       <p className="text text_type_main-default pb-5 pt-5">{item.name}</p>
     </div>
   )
-}
-
-
-Card.propTypes = {
-  openDetails: PropTypes.func.isRequired,
-  item: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  })
 }

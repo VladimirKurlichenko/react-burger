@@ -1,15 +1,22 @@
 import ReactDOM from "react-dom";
 import React from 'react';
+import { ReactNode } from "react";
 import style from './Modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-const modalRoot = document.getElementById("portal");
 
-const Modal = ({ children, onClose }) => {
+interface IModalProps {
+    onClose: () => void;
+    children: ReactNode;
+}
+
+const modalRoot = document.getElementById("portal") as HTMLElement;
+
+const Modal = ({ children, onClose }: IModalProps) => {
 
      React.useEffect(() => {
-        const closeModal = (evt) => {
+        const closeModal = (evt: KeyboardEvent) => {
           if (evt.key === 'Escape') { onClose() }
         }
         window.addEventListener('keydown', closeModal)

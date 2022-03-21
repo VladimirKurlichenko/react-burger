@@ -10,12 +10,13 @@ export default function ResetPassword() {
     const [valueForm, setValueForm] = useState({ password: '', token: '' })
     const history = useHistory();
     const dispatch = useDispatch();
-    const isPasswordForgotten = useSelector(store => store.forgotPassword.isPasswordForgotten);
+    const isPasswordForgotten = useSelector((store: any) => store.forgotPassword.isPasswordForgotten);
 
-    const onFormChange = (e) => {
-        console.log(e.target.value, "e");
-        setValueForm(e.target.value);
-    }
+    const onFormChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const formValue = e.currentTarget.value;
+        const formName = e.currentTarget.name;
+        setValueForm(prev => ({...prev, [formName]: formValue }))
+    };
 
     if (!isPasswordForgotten) {
         return (
@@ -23,7 +24,7 @@ export default function ResetPassword() {
         )
     }
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         console.log(valueForm, "form");
         dispatch(resetPassword(valueForm));

@@ -1,4 +1,3 @@
-
 import style from './Routers.module.css';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
@@ -13,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ProtectedRouteResetPassword } from '../ProtectedRouteResetPassword/ProtectedRouteResetPassword';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/actions/ingredients';
-
+import { Location } from "history";
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
 import Login from '../../pages/Login/Login';
 import ForgotPassword from '../../pages/ForgotPassword/ForgotPassword';
@@ -26,14 +25,21 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { getUserData } from '../../services/actions/auth';
 
 import { VISIBLE_ORDER_DETAILS, VISIBLE_INGREDIENT_DETAILS } from '../../services/actions/modals';
+import { TOrder } from '../../types/types';
+
+interface ILocationState {
+    background: Location;
+    order: TOrder;
+}
+
 
 export default function Routes() {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<ILocationState>();
     const history = useHistory();
-    const user = useSelector(store => store.user);
-
+    const user = useSelector((store: any) => store.user);
     const background = location.state?.background;
+
     console.log(location, background, "location");
 
     useEffect(() => {
@@ -48,7 +54,7 @@ export default function Routes() {
         })
     }, [])
 
-    const { visibleOrderDetails, visibleIngredientDetails } = useSelector(store => store.modals);
+    const { visibleOrderDetails, visibleIngredientDetails } = useSelector((store: any) => store.modals);
 
     const openModalOrderDetails = () => {
         if(user.username){
@@ -110,7 +116,6 @@ export default function Routes() {
                             </section>
                             <section className={`${style.burgerConstructor} mt-25 mr-10`}>
                                 <BurgerConstructor
-                                    openIngredientDetails={openModalIngredientDetails}
                                     openOrderDetails={openModalOrderDetails}
                                 />
                             </section>

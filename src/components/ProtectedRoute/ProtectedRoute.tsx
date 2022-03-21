@@ -1,16 +1,20 @@
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, RouteProps} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { getUserData } from '../../services/actions/auth';
 
-export function ProtectedRouteResetPassword({ children, ...rest }) {
+interface IProtectedRoute extends RouteProps {
+  children?: React.ReactNode;
+}
+
+export function ProtectedRoute({ children, ...rest }: IProtectedRoute) {
   const dispatch = useDispatch();
   const [isUserLoaded, setUserLoaded] = useState(false);
-  const forgotPassword = useSelector(store => store.forgotPassword);
-  console.log(forgotPassword, "forgotPassword")
+  const user = useSelector((store: any) => store.user);
 
   const init = useCallback(async () => {
+    await dispatch(getUserData())
     setUserLoaded(true)
   }, [dispatch])
 
@@ -27,12 +31,13 @@ export function ProtectedRouteResetPassword({ children, ...rest }) {
       <Route
         {...rest}
         render={({ location }) =>
-        forgotPassword.isPasswordForgotten ? (
+          user.username ? (
             children
           ) : (
             <Redirect
               to={{
-                pathname: '/forgot-password'
+                pathname: '/login',
+                state: { from: location }
               }}
             />
           )

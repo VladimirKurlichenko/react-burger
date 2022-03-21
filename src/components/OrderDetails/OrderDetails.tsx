@@ -6,7 +6,7 @@ import { getOrderNumber } from '../../services/actions/orderDetails';
 
 const OrderDetails = () => {
     const dispatch = useDispatch();
-    const { ingredientsIDs, orderNumber } = useSelector(state => state.orderDetails);
+    const { ingredientsIDs, orderNumber } = useSelector((state: any) => state.orderDetails);
 
     useEffect(() => {
         dispatch(getOrderNumber(ingredientsIDs));
@@ -16,7 +16,7 @@ const OrderDetails = () => {
             <div className={`${style.card} pt-10 pb-10`}>
                 <h3 className={`${style.order} pt-3 text text_type_digits-large`}>{orderNumber}</h3>
                 <p className='text text_type_main-medium pt-1'>идентификатор заказа</p>
-                <span className={style.icon}><CheckMarkIcon /></span>
+                <span className={style.icon}><CheckMarkIcon type='primary' /></span>
                 <p className='text text_type_main-default'>Ваш заказ начали готовить</p>
                 <p className='text text_type_main-default text_color_inactive pb-10 pt-2'>Дождитесь готовности на орбитальной станции</p>
             </div>

@@ -14,11 +14,12 @@ export default function Login() {
         password: ''
     });
 
-    const onFormChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const onFormChange = (e: React.FormEvent<HTMLInputElement>) => {
+        console.log(e.currentTarget.value)
+        setForm({ ...form, [e.currentTarget.name]: e.currentTarget.value });
     };
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         dispatch(login(form));
         history.replace({ pathname: '/' });

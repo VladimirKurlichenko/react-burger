@@ -15,11 +15,11 @@ export default function Register() {
         password: '',
     });
 
-    const onChange = e => {
-        setForm({...form, [e.target.name]: e.target.value })
+    const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setForm({...form, [e.currentTarget.name]: e.currentTarget.value })
     }
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         console.log(form, "проверка регистрации");
         dispatch(register(form));
