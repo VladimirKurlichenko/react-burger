@@ -4,10 +4,10 @@ import { ADD_CART_INGREDIENT, ADD_CART_INGREDIENT_BUN, DELETE_CART_INGREDIENT, M
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import { GET_ORDER_INGREDIENTS_ID } from '../../services/actions/orderDetails';
-import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientsIDs, TBurgerConstructorProps } from '../../types/types';
+
 
 interface IConstructorElementMiddleProps {
   item: TIngredient; 
@@ -127,7 +127,7 @@ export default function BurgerConstructor({ openOrderDetails }: TBurgerConstruct
                 type='top'
                 isLocked={true}
                 text=''
-                thumbnail=''
+                thumbnail='https://www.svgrepo.com/show/269976/baguettes-bread.svg'
                 price={0}
               />
             </div>
@@ -161,7 +161,7 @@ export default function BurgerConstructor({ openOrderDetails }: TBurgerConstruct
                 type='bottom'
                 isLocked={true}
                 text=''
-                thumbnail=''
+                thumbnail='https://www.svgrepo.com/show/269976/baguettes-bread.svg'
                 price={0}
               />
             </div>
@@ -183,8 +183,4 @@ export default function BurgerConstructor({ openOrderDetails }: TBurgerConstruct
 
     </section>
   )
-}
-
-BurgerConstructor.propTypes = {
-  openOrderDetails: PropTypes.func.isRequired
 }

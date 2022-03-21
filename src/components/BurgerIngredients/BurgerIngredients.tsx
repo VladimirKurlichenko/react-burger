@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import style from './BurgerIngredients.module.css';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from './Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
@@ -99,11 +98,6 @@ const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
     </div>
   );
 }
-
-BurgerIngredients.propTypes = {
-    openIngredientDetails: PropTypes.func.isRequired
-}
-
 
 export default BurgerIngredients;
 
