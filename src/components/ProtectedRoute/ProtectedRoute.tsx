@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { getUserData } from '../../services/actions/auth';
+import { RootState } from '../../services/reducers/index';
 
 export function ProtectedRoute({ children, ...rest }: RouteProps) {
   const dispatch = useDispatch();
   const [isUserLoaded, setUserLoaded] = useState(false);
-  const user = useSelector((store: any) => store.user);
+  const user = useSelector((store: RootState) => store.user);
 
   const init = useCallback(async () => {
     await dispatch(getUserData())

@@ -6,18 +6,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TIngredient} from '../../types/types';
+import { RootState } from '../../services/reducers/index';
+import {VISIBLE_INGREDIENT_DETAILS} from '../../services/actions/modals'
 
 interface IBurgerIngredients {
     openIngredientDetails: () => void;
   }
 
-const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
+const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    const {ingredientsData} = useSelector((state: any) => state.ingredients)
+    const {ingredientsData} = useSelector((state: RootState) => state.ingredients)
     const [current, setCurrent] = React.useState<string>('bun');
 
     const refBun = useRef<null | HTMLDivElement>(null); 
@@ -48,7 +50,7 @@ const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
             .map((ingredient: TIngredient) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
-                    openIngredientDetails();
+                    dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: true })
                     history.push({ pathname: `/ingredients/${ingredient._id}`, state: { background: location } })
                     console.log("Test")
                 }

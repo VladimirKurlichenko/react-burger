@@ -4,6 +4,8 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { TIngredient } from '../../../types/types';
+import { RootState } from '../../../services/reducers/index';
+
 
 type TCardProps = {
   item: TIngredient;
@@ -12,8 +14,8 @@ type TCardProps = {
 
 export default function Card({ item, openDetails }: TCardProps) {
 
-  const cartIngredients = useSelector((state: any) => state.cartIngredient.сartIngredients);
-  const buns = useSelector((state: any) => state.cartIngredient.bunIngredients);
+  const cartIngredients = useSelector((state: RootState) => state.cartIngredient.сartIngredients);
+  const buns = useSelector((state: RootState) => state.cartIngredient.bunIngredients);
   const counter = [...cartIngredients, ...buns].filter(el => el._id === item._id).length;
 
   const [{ opacity }, ref] = useDrag({

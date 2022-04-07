@@ -3,12 +3,12 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 import { ADD_CART_INGREDIENT, ADD_CART_INGREDIENT_BUN, DELETE_CART_INGREDIENT, MOVE_CART_INGREDIENT} from '../../services/actions/cartIngredient';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
-import { GET_ORDER_INGREDIENTS_ID } from '../../services/actions/orderDetails';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientsIDs, TBurgerConstructorProps } from '../../types/types';
-
-
+import { RootState } from '../../services/reducers/index';
+import {VISIBLE_ORDER_DETAILS} from '../../services/actions/modals'
+import {postOrder} from '../../services/actions/orderDetails'
 interface IConstructorElementMiddleProps {
   item: TIngredient; 
   index: number;
@@ -19,27 +19,26 @@ interface IOrderCost {
   ing: TIngredient;
 }
 
-export default function BurgerConstructor({ openOrderDetails }: TBurgerConstructorProps) {
+export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const items = useSelector((state: any) => state.cartIngredient.сartIngredients);
-  const bun = useSelector((state: any) => state.cartIngredient.bunIngredients[0]);
-  const user = useSelector((state: any) => state.user);
+  const items = useSelector((state: RootState) => state.cartIngredient.сartIngredients);
+  const bun = useSelector((state: RootState) => state.cartIngredient.bunIngredients[0]);
+  const user = useSelector((state: RootState) => state.user);
 
   const orderCost = bun ? [bun, bun, ...items].reduce((acc, ing) => acc += ing.price, 0)
     : items.reduce((acc : number, ing : TIngredient)=> acc += ing.price, 0);
 
-  const ingredientsIDs: TIngredientsIDs = items.map((item : any)=> item._id);
+  const ingredientsIDs: TIngredientsIDs = items.map((item : TIngredient)=> item._id);
 
   const orderBurger = () => {
     if(user.username){
       if (bun && items.length !== 0) {
-        openOrderDetails();
-        dispatch({ type: GET_ORDER_INGREDIENTS_ID, ingredientsIDs: ingredientsIDs })
+        dispatch({ type: VISIBLE_ORDER_DETAILS, value: true })
+        dispatch(postOrder(ingredientsIDs));
       }
     }
     else{
-      openOrderDetails();
       history.replace({ pathname: '/login' });
     }
    

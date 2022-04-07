@@ -1,17 +1,24 @@
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
-    GET_INGREDIENTS_ERROR
-} from "../actions/ingredients.js"
+    GET_INGREDIENTS_ERROR,
+    TIngredientsActions
+} from "../actions/ingredients"
+import type { TIngredient } from '../../types/types';
 
-const initialState = {
+interface IState {
+  readonly ingredientsData: ReadonlyArray<TIngredient>;
+  readonly isLoading: boolean;
+  readonly hasError: boolean;
+}
+const initialState: IState= {
     ingredientsData: [],
     isLoading: false,
     hasError: false
 }
 
-export const ingredientsReducer = (state = initialState, { type, payload }) => {
-    switch (type) {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions) => {
+    switch (action.type) {
       case GET_INGREDIENTS_REQUEST: {
         return {
           ...state,
@@ -21,7 +28,7 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
       case GET_INGREDIENTS_SUCCESS: {
         return {
           ...state,
-          ingredientsData: payload,
+          ingredientsData: action.payload,
           isLoading: false
         }
       }

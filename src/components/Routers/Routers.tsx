@@ -1,4 +1,5 @@
-import style from './Routers.module.css';
+import styles from './Routers.module.css';
+
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -6,25 +7,23 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
-import { Route, Switch, useLocation, useHistory, matchPath, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { ProtectedRouteResetPassword } from '../ProtectedRouteResetPassword/ProtectedRouteResetPassword';
+import { Location } from "history";
+import { Route, useLocation, Switch, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from '../../types/hooks';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/actions/ingredients';
-import { Location } from "history";
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
 import Login from '../../pages/Login/Login';
 import ForgotPassword from '../../pages/ForgotPassword/ForgotPassword';
 import Profile from '../../pages/Profile/Profile';
 import Register from '../../pages/Register/Register';
 import ResetPassword from '../../pages/ResetPassword/ResetPassword';
-
+import ProfileOrders from '../../pages/ProfileOrders/ProfileOrders';
+import Feed from '../../pages/Feed/Feed'
+import OrderView from '../OrderView/OrderView';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-
 import { getUserData } from '../../services/actions/auth';
-
-import { VISIBLE_ORDER_DETAILS, VISIBLE_INGREDIENT_DETAILS } from '../../services/actions/modals';
+import { RootState } from '../../services/reducers/index';
 import { TOrder } from '../../types/types';
 
 interface ILocationState {
@@ -32,47 +31,22 @@ interface ILocationState {
     order: TOrder;
 }
 
-
 export default function Routes() {
     const dispatch = useDispatch();
-    const location = useLocation<ILocationState>();
     const history = useHistory();
-    const user = useSelector((store: any) => store.user);
+    const location = useLocation<ILocationState>();
     const background = location.state?.background;
 
-    console.log(location, background, "location");
+    const { visibleOrderDetails, visibleIngredientDetails, visibleOrdersDetails } = useSelector((store:RootState) => store.modals);
 
     useEffect(() => {
         dispatch(getIngredients());
         dispatch(getUserData());
     }, [dispatch])
 
-    useEffect(() => {
-        return background && history.replace({
-            pathname: location.pathname,
-            state: undefined
-        })
-    }, [])
-
-    const { visibleOrderDetails, visibleIngredientDetails } = useSelector((store: any) => store.modals);
-
-    const openModalOrderDetails = () => {
-        if(user.username){
-            dispatch({ type: VISIBLE_ORDER_DETAILS, value: true })
-          }
-          else{
-            dispatch({ type: VISIBLE_ORDER_DETAILS, value: false })
-          }
-       
-    }
-
-    const openModalIngredientDetails = () => {
-        dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: true })
-    }
-
     const closeModal = () => {
-        dispatch({ type: VISIBLE_ORDER_DETAILS, value: false })
-        dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: false })
+        dispatch({ type: 'VISIBLE_ORDER_DETAILS', value: false })
+        dispatch({ type: 'VISIBLE_INGREDIENT_DETAILS', value: false })
         if (background) {
             history.replace({ pathname: background.pathname });
         }
@@ -80,7 +54,7 @@ export default function Routes() {
 
     return (
         <>
-             <Switch location={background || location}>
+            <Switch location = {background || location}>
 
                 <Route path='/register'>
                     <Register />
@@ -102,45 +76,38 @@ export default function Routes() {
                     <IngredientDetails />
                 </Route>
 
-                <ProtectedRoute path='/profile'>
+                <Route exact={true} path='/feed'>
+                    <Feed />
+                </Route>
+
+                <Route path='/feed/:id'>
+                    <OrderView modal={true} />
+                </Route>
+
+                <ProtectedRoute exact={true} path='/profile'>
                     <Profile />
                 </ProtectedRoute>
 
+                <ProtectedRoute exact={true} path='/profile/orders'>
+                    <ProfileOrders />
+                </ProtectedRoute>
+
+                <ProtectedRoute path='/profile/orders/:id'>
+                    <OrderView />
+                </ProtectedRoute>
+
                 <Route exact={true} path='/'>
-                    <main className={style.main}>
+                    <main className={styles.main}>
                         <DndProvider backend={HTML5Backend}>
-                            <section className={`${style.burgerIngredients} mr-10 ml-10`}>
-                                <BurgerIngredients
-                                    openIngredientDetails={openModalIngredientDetails}
-                                />
-                            </section>
-                            <section className={`${style.burgerConstructor} mt-25 mr-10`}>
-                                <BurgerConstructor
-                                    openOrderDetails={openModalOrderDetails}
-                                />
-                            </section>
+                            <BurgerIngredients />
+                            <BurgerConstructor />
                         </DndProvider>
                     </main>
 
-                    {visibleOrderDetails && <>
-                    {
-                        user.username ? (
-                            <Modal onClose={closeModal}>
-                                <OrderDetails />
-                            </Modal>
-                          ) : (
-                            <Redirect
-                            to={{
-                              pathname: '/login',
-                              state: { from: location }
-                            }}
-                          />           
-                          )
-                    }
-                    </>
-                                  
-                         
-                       
+                    {visibleOrderDetails &&
+                        <Modal onClose={closeModal}>
+                            <OrderDetails />
+                        </Modal>
                     }
                 </Route>
 
@@ -157,6 +124,17 @@ export default function Routes() {
                     </Modal>
                 </Route>
             }
+
+            {
+                background && visibleOrdersDetails &&
+                
+                <Route exact={true} path={`${background.pathname}/:id`}>
+                    <Modal onClose={closeModal}>
+                        <OrderView modal={true}  order={location.state.order}/>
+                    </Modal>
+                </Route>
+            }
+
         </>
     )
 }

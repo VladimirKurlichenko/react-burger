@@ -2,8 +2,8 @@ import style from './IngredientDetails.module.css';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { TIngredient } from '../../types/types';
+import { RootState } from '../../services/reducers/index';
 
 const IngredientDetails = () => {
 
@@ -11,15 +11,20 @@ const IngredientDetails = () => {
     const [ingredient, setIngredient] =  useState<TIngredient>();
     const ingredientID = location.pathname.split('/')[2];
 
-    const { ingredientsData, isLoading } = useSelector((store: any) => store.ingredients);
-    const activeIngredient = useSelector((store: any) => store.ingredientDetails.activeIngredient);
+    const { ingredientsData, isLoading } = useSelector((store: RootState) => store.ingredients);
+    const activeIngredient = useSelector((store: RootState) => store.ingredientDetails.activeIngredient);
 
     useEffect(() => {
-        if (Object.keys(activeIngredient).length === 0 && ingredientsData.length !== 0) {
-            return setIngredient(ingredientsData.find((ing: TIngredient) => ing._id === ingredientID));
+        if (activeIngredient === null) {
+            const ingFound = ingredientsData.find((ing: TIngredient) => ing._id === ingredientID);
+            if (ingFound) {
+                return setIngredient(ingFound);
+            }
         }
-        setIngredient(activeIngredient);
-    }, [ingredientsData, activeIngredient, ingredientID]);
+        if (activeIngredient !== null) {
+            setIngredient(activeIngredient);
+        }
+    }, [ingredientsData, activeIngredient, location.pathname]);
 
     console.log(ingredient, "ingredient")
 

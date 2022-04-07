@@ -1,14 +1,18 @@
 import {
   PASSWORD_FORGOT,
-  PASSWORD_FORGOT_RESTORE
+  PASSWORD_FORGOT_RESTORE,
+  TForgotPasswordActions
 } from "../actions/forgotPassword"
 
-const initialState = {
-  test: 'test',
+interface IState {
+  readonly isPasswordForgotten: boolean;
+}
+
+const initialState : IState = {
   isPasswordForgotten: false,
 }
 
-export const forgotPasswordReducer = (state = initialState, action) => {
+export const forgotPasswordReducer = (state = initialState, action: TForgotPasswordActions) => {
   console.log(action);
   switch (action.type) {
       case PASSWORD_FORGOT: {

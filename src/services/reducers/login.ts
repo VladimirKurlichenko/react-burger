@@ -1,13 +1,19 @@
 import {
     LOGIN_SUCCESS,
-    LOGIN_ERROR
+    LOGIN_ERROR,
+    TLogin
 } from "../actions/login"
 
-const initialState = {
+interface IState {
+  readonly isLogin: boolean;
+}
+
+
+const initialState: IState = {
     isLogin: false,
 }
 
-export const forgotPasswordReducer = (state = initialState, { type }) => {
+export const forgotPasswordReducer = (state = initialState, { type }: TLogin) => {
     switch (type) {
       case LOGIN_SUCCESS: {
         return {

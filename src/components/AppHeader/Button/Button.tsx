@@ -25,7 +25,7 @@ const Button = ({icon, text} : TButtonProps) => {
   if(icon === "ListIcon"){
     return (
       <NavLink
-        to="/"
+        to="/feed"
         className={style.btn}
         onMouseEnter={() => setTypeIcon(!typeIcon)}
         onMouseLeave={() => setTypeIcon(!typeIcon)}
@@ -51,7 +51,7 @@ const Button = ({icon, text} : TButtonProps) => {
   };
 
   return(
-    <button></button>
+    null
   );
 
 

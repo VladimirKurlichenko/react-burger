@@ -41,3 +41,11 @@ export type TRequestOptions = {
     };
     body?: string;
 }
+
+export type TFormData = {
+    username?: string;
+    email?: string;
+    password?: string;
+    token?: string
+}
+

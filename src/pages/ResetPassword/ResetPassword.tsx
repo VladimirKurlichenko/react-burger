@@ -4,13 +4,14 @@ import { Link, useHistory, Redirect} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { resetPassword } from '../../services/actions/auth';
+import { RootState } from '../../services/reducers/index';
 
 
 export default function ResetPassword() {
     const [valueForm, setValueForm] = useState({ password: '', token: '' })
     const history = useHistory();
     const dispatch = useDispatch();
-    const isPasswordForgotten = useSelector((store: any) => store.forgotPassword.isPasswordForgotten);
+    const isPasswordForgotten = useSelector((store: RootState) => store.forgotPassword.isPasswordForgotten);
 
     const onFormChange = (e: React.FormEvent<HTMLInputElement>) => {
         const formValue = e.currentTarget.value;
