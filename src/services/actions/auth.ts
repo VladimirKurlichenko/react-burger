@@ -8,7 +8,7 @@ import {USER_SET_CREDENTIALS, USER_LOGOUT} from './user';
 import { TFormData } from "../../types/types";
 import { AppDispatch, AppThunk } from '../reducers';
 
-// export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+
 // export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 // export const LOGIN_FAILED = 'LOGIN_FAILED';
 // export const REGISTER_REQUEST = 'REGISTER_REQUEST';
