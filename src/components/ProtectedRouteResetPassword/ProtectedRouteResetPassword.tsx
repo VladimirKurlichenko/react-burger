@@ -1,9 +1,6 @@
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { getUserData } from '../../services/actions/auth';
-import { RootState } from '../../services/reducers/index';
+import { useDispatch, useSelector } from '../../types/hooks';
 
 interface IProtectedRoute extends RouteProps {
   children?: React.ReactNode;
@@ -12,7 +9,7 @@ interface IProtectedRoute extends RouteProps {
 export function ProtectedRouteResetPassword({ children, ...rest }: IProtectedRoute) {
   const dispatch = useDispatch();
   const [isUserLoaded, setUserLoaded] = useState(false);
-  const forgotPassword = useSelector((store: RootState) => store.forgotPassword);
+  const forgotPassword = useSelector((store) => store.forgotPassword);
   console.log(forgotPassword, "forgotPassword")
 
   const init = useCallback(async () => {

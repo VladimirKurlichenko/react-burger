@@ -1,12 +1,11 @@
 import style from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ADD_CART_INGREDIENT, ADD_CART_INGREDIENT_BUN, DELETE_CART_INGREDIENT, MOVE_CART_INGREDIENT} from '../../services/actions/cartIngredient';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { useDrop, useDrag } from 'react-dnd';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { TIngredient, TIngredientsIDs, TBurgerConstructorProps } from '../../types/types';
-import { RootState } from '../../services/reducers/index';
+import { TIngredient, TIngredientsIDs } from '../../types/types';
 import {VISIBLE_ORDER_DETAILS} from '../../services/actions/modals'
 import {postOrder} from '../../services/actions/orderDetails'
 interface IConstructorElementMiddleProps {
@@ -22,14 +21,14 @@ interface IOrderCost {
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const items = useSelector((state: RootState) => state.cartIngredient.сartIngredients);
-  const bun = useSelector((state: RootState) => state.cartIngredient.bunIngredients[0]);
-  const user = useSelector((state: RootState) => state.user);
+  const items = useSelector((state) => state.cartIngredient.сartIngredients);
+  const bun = useSelector((state) => state.cartIngredient.bunIngredients[0]);
+  const user = useSelector((state) => state.user);
 
   const orderCost = bun ? [bun, bun, ...items].reduce((acc, ing) => acc += ing.price, 0)
-    : items.reduce((acc : number, ing : TIngredient)=> acc += ing.price, 0);
+    : items.reduce((acc, ing)=> acc += ing.price, 0);
 
-  const ingredientsIDs: TIngredientsIDs = items.map((item : TIngredient)=> item._id);
+  const ingredientsIDs: TIngredientsIDs = items.map((item)=> item._id);
 
   const orderBurger = () => {
     if(user.username){
@@ -134,7 +133,7 @@ export default function BurgerConstructor() {
         }
 
         <div className={style.ingredients} ref={dropTarget} >
-          {items.map((ingredient: TIngredient, index: number) => {
+          {items.map((ingredient, index) => {
             return (
               <div className={`${style.ingredient} mb-2 mt-2`} key={ingredient.key} >
                 <ConstructorElementMiddle item={ingredient} index={index} />

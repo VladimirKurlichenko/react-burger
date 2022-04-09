@@ -1,18 +1,23 @@
 import style from './IngredientDetails.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../types/hooks';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TIngredient } from '../../types/types';
-import { RootState } from '../../services/reducers/index';
+import { TOrder } from '../../types/types';
+interface ILocationState {
+    background: Location;
+    order: TOrder;
+    readonly ingredientModal?: Location;
+}
 
 const IngredientDetails = () => {
 
-    const location = useLocation();
+    const location = useLocation<ILocationState>();
     const [ingredient, setIngredient] =  useState<TIngredient>();
     const ingredientID = location.pathname.split('/')[2];
 
-    const { ingredientsData, isLoading } = useSelector((store: RootState) => store.ingredients);
-    const activeIngredient = useSelector((store: RootState) => store.ingredientDetails.activeIngredient);
+    const { ingredientsData, isLoading } = useSelector((store) => store.ingredients);
+    const activeIngredient = useSelector((store) => store.ingredientDetails.activeIngredient);
 
     useEffect(() => {
         if (activeIngredient === null) {

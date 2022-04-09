@@ -7,17 +7,21 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import { getOrder } from '../../services/actions/orderDetails';
 import { TIngredient, TOrder } from '../../types/types';
-import { RootState } from '../../services/reducers';
 
 interface IOrderViewProps {
     order?: TOrder;
     modal?: boolean;
 }
 
+interface ITest {
+    ingredients: TIngredient,
+    count: number
+}
+
 export default function OrderView({ order, modal }: IOrderViewProps) {
     const location = useLocation();
     const dispatch = useDispatch();
-    const { ingredientsData } = useSelector((store: RootState) => store.ingredients);
+    const { ingredientsData } = useSelector((store) => store.ingredients);
     const [ingredientsInOrder, setIngredientsInOrder] = useState<Array<TIngredient>>([]);
     const [resultedOrder, setResultedOrder] = useState<TOrder>();
     const [doneWithIngredients, setDoneWithIngredients] = useState(false);
@@ -25,6 +29,27 @@ export default function OrderView({ order, modal }: IOrderViewProps) {
         value: '',
         color: ''
     })
+
+    const ingredientsWithCount:Array<ITest> = findOcc(ingredientsInOrder);
+
+
+    function findOcc(arr:Array<TIngredient>){
+        let arr2:Array<ITest> = [];
+        arr.forEach((x)=>{
+           if(arr2.some((val)=>{ return val.ingredients.name === x.name })){
+
+             arr2.forEach((k)=>{
+               if(k.ingredients.name === x.name){ 
+                 k.count++
+               }
+            })
+           }else{
+                let item:ITest = {ingredients: x, count: 1}
+                arr2.push(item)
+           }
+        })
+        return arr2
+      }
 
     const matchOrderStatus = useCallback((s: string) => {
         if (s === 'done') {
@@ -42,7 +67,7 @@ export default function OrderView({ order, modal }: IOrderViewProps) {
         throw new Error('status value is not valid')
     }, [])
 
-    const orderIfNoProps = useSelector((store: RootState) => store.orderDetails.order) as TOrder;
+    const orderIfNoProps = useSelector((store) => store.orderDetails.order) as TOrder;
 
     const matchIngredientsFromOrder = useCallback((order: TOrder) => {
         const matchedIngs: Array<TIngredient> = [];
@@ -106,18 +131,19 @@ export default function OrderView({ order, modal }: IOrderViewProps) {
 
                             {!doneWithIngredients
                                 ? null
-                                : (ingredientsInOrder.map((ing, index) => {
+                                : (ingredientsWithCount
+                            .map((ing, index) => {
                                     return (
                                         <div className={` ${styles.orderIngredientRow} mb-1`} key={index}>
 
                                             <div className={styles.ingIconSpan}>
-                                                <img src={ing.image_mobile} alt="" className={`${styles.ingIcon}`} />
+                                                <img src={ing.ingredients.image_mobile} alt="" className={`${styles.ingIcon}`} />
                                             </div>
 
-                                            <p className={`${styles.ingName} text text_type_main-default`}>{ing.name}</p>
+                                            <p className={`${styles.ingName} text text_type_main-default`}>{ing.ingredients.name}</p>
 
                                             <span className={styles.ingValue}>
-                                                <p className={`text text_type_digits-default mr-3`}>1x {ing.price}</p>
+                                                <p className={`text text_type_digits-default mr-3`}>{ing.count} x {ing.ingredients.price}</p>
                                                 <CurrencyIcon type="primary" />
                                             </span>
                                         </div>

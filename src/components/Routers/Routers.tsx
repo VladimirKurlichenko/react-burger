@@ -25,10 +25,13 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { getUserData } from '../../services/actions/auth';
 import { RootState } from '../../services/reducers/index';
 import { TOrder } from '../../types/types';
+import {VISIBLE_ORDER_DETAILS, VISIBLE_INGREDIENT_DETAILS} from '../../services/actions/modals'
 
 interface ILocationState {
     background: Location;
     order: TOrder;
+    readonly ingredientModal?: Location;
+    readonly ordersModal?: Location;
 }
 
 export default function Routes() {
@@ -36,7 +39,8 @@ export default function Routes() {
     const history = useHistory();
     const location = useLocation<ILocationState>();
     const background = location.state?.background;
-
+    const ingredientModal = location.state && location.state.ingredientModal;
+    const ordersModal = location.state && location.state.ordersModal;
     const { visibleOrderDetails, visibleIngredientDetails, visibleOrdersDetails } = useSelector((store:RootState) => store.modals);
 
     useEffect(() => {
@@ -45,16 +49,17 @@ export default function Routes() {
     }, [dispatch])
 
     const closeModal = () => {
-        dispatch({ type: 'VISIBLE_ORDER_DETAILS', value: false })
-        dispatch({ type: 'VISIBLE_INGREDIENT_DETAILS', value: false })
+        dispatch({ type: VISIBLE_ORDER_DETAILS, value: false })
+        dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: false })
         if (background) {
             history.replace({ pathname: background.pathname });
         }
+        // history.goBack();
     }
 
     return (
         <>
-            <Switch location = {background || location}>
+            <Switch location = {background || location || ingredientModal}>
 
                 <Route path='/register'>
                     <Register />
@@ -117,7 +122,7 @@ export default function Routes() {
             </Switch>
 
             {
-                background && visibleIngredientDetails &&
+                background &&
                 <Route exact={true} path='/ingredients/:id'>
                     <Modal onClose={closeModal}>
                         <IngredientDetails />
@@ -126,7 +131,7 @@ export default function Routes() {
             }
 
             {
-                background && visibleOrdersDetails &&
+                background &&
                 
                 <Route exact={true} path={`${background.pathname}/:id`}>
                     <Modal onClose={closeModal}>

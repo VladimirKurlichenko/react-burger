@@ -2,16 +2,10 @@ import React, {useRef} from 'react';
 import style from './BurgerIngredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from './Card/Card';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
 import { useHistory, useLocation } from 'react-router-dom';
-import { TIngredient} from '../../types/types';
-import { RootState } from '../../services/reducers/index';
 import {VISIBLE_INGREDIENT_DETAILS} from '../../services/actions/modals'
-
-interface IBurgerIngredients {
-    openIngredientDetails: () => void;
-  }
 
 const BurgerIngredients = () => {
 
@@ -19,7 +13,7 @@ const BurgerIngredients = () => {
     const history = useHistory();
     const location = useLocation();
 
-    const {ingredientsData} = useSelector((state: RootState) => state.ingredients)
+    const {ingredientsData} = useSelector((state) => state.ingredients)
     const [current, setCurrent] = React.useState<string>('bun');
 
     const refBun = useRef<null | HTMLDivElement>(null); 
@@ -46,8 +40,8 @@ const BurgerIngredients = () => {
 
     const ingredientsList = (type: 'bun' | 'sauce' | 'main') => {
         return ingredientsData
-            .filter((ingredient: TIngredient) => ingredient.type === type)
-            .map((ingredient: TIngredient) => {
+            .filter((ingredient) => ingredient.type === type)
+            .map((ingredient) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
                     dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: true })

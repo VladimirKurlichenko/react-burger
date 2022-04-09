@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import style from './OrderDetails.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../services/reducers/index';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { RESET_ORDER_NUMBER } from '../../services/actions/orderDetails';
 
 const OrderDetails = () => {
     const dispatch = useDispatch();
-    const { orderNumber } = useSelector((store: RootState) => store.orderDetails);
+    const { orderNumber } = useSelector((store) => store.orderDetails);
 
     useEffect(() => {
         dispatch({ type: RESET_ORDER_NUMBER });

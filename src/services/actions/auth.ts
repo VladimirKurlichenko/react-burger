@@ -188,7 +188,8 @@ export const register: AppThunk =({ username, email, password }: TFormData) =>
             });
     }
 
-export const logout: AppThunk = () =>
+
+    export const logout: AppThunk = () =>
     async function (dispatch: AppDispatch) {
         dispatch({ type: LOGOUT_REQUEST });
 

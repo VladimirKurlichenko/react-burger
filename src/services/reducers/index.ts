@@ -24,8 +24,19 @@ import { TLogin } from '../actions/login';
 import { socketMiddleware } from '../middlewares/socketMiddleware';
 import { TSocketActions } from '../actions/socket';
 import { wsReducer } from './socket';
+import {TWsActions} from '../middlewares/socketMiddleware'
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../actions/socket";
 
-const enhancer = composeWithDevTools(applyMiddleware(thunk, socketMiddleware()));
+export const wsFeedActions: TWsActions = {
+  wsFeedStart: WS_CONNECTION_START,
+  onFeedSuccess: WS_CONNECTION_SUCCESS,
+  onFeedError: WS_CONNECTION_ERROR,
+  onFeedGetMessage: WS_GET_MESSAGE,
+  onFeedClose: WS_CONNECTION_CLOSED,
+  onFeedSendMessage: WS_SEND_MESSAGE
+};
+
+const enhancer = composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsFeedActions)));
 
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,

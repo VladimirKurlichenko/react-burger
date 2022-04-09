@@ -16,7 +16,7 @@ export default function ProfileOrders() {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const messages = useSelector((store: RootState) => store.ws.messages);
+    const messages = useSelector((store) => store.ws.messages);
     const [orders, setOrders] = useState<Array<TOrder>>([]);
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import style from './Profile.module.css';
 import { Link, NavLink } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { logout, patchUserData } from '../../services/actions/auth';
 import { RootState } from '../../services/reducers/index';
@@ -9,7 +9,7 @@ import { RootState } from '../../services/reducers/index';
 
 export default function Profile() {
     const dispatch = useDispatch();
-    const user = useSelector((store: RootState) => store.user);
+    const user = useSelector((store) => store.user);
     const [form, setForm] = useState({ username: user.username, email: user.email, password: '' });
 
     const resetProfileFormValue = () => {

@@ -4,7 +4,6 @@ import { useCallback, useState, useEffect } from 'react';
 import { useSelector } from '../../types/hooks';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { RootState } from '../../services/reducers';
 import { TOrder, TIngredient } from '../../types/types';
 
 interface IOrderElementProps {
@@ -14,7 +13,7 @@ interface IOrderElementProps {
 }
 
 export default function OrderElement({ onClick, order, from }: IOrderElementProps) {
-    const { ingredientsData } = useSelector((store: RootState) => store.ingredients);
+    const { ingredientsData } = useSelector((store) => store.ingredients);
     const [ingredientsInOrder, setIngredientsInOrder] = useState<Array<TIngredient>>([]);
     const [doneIngredients, setDoneIngredients] = useState(false);
     const [status, setStatus] = useState({

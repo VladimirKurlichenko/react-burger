@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from '../../types/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { WS_ALL_ORDERS_URL } from '../../utils/api-urls';
 import OrderElement from '../../components/OrderElement/OrderElement';
-import { RootState } from '../../services/reducers';
 import { TOrder } from '../../types/types';
 import { VISIBLE_ORDERS_DETAILS } from '../../services/actions/modals';
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/socket';
@@ -15,7 +14,7 @@ export default function Feed() {
     const dispatch = useDispatch();
     const ORDERS_TO_DISPLAY = 12;
 
-    const messages = useSelector((store: RootState) => store.ws.messages);
+    const messages = useSelector((store) => store.ws.messages);
     const [orders, setOrders] = useState<Array<TOrder>>([]);
     const [total, setTotal] = useState(0);
     const [totalToday, setTotalToday] = useState(0);
