@@ -25,6 +25,7 @@
     overflow-y: overlay;
     overflow-x: hidden;
     margin-left: -30px;
+   max-height: 366px;
 }
 
 .orderIngredients::-webkit-scrollbar {

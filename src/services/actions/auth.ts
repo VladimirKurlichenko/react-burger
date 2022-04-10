@@ -137,8 +137,34 @@ const otherReqOpt = {
     referrerPolicy: 'no-referrer',
 };
 
-export const login :AppThunk =({ email, password }: TFormData) =>
+export const login_old :AppThunk =({ email, password }: TFormData) =>
     async function (dispatch: AppDispatch) {
+        dispatch({ type: LOGIN_REQUEST })
+
+        const requestOptions = {
+            method: 'POST',
+            body: JSON.stringify({ email: email, password: password }),
+            headers: { 'Content-Type': 'application/json' }
+        }
+
+        console.log('proceed to LOGIN');
+        await fetch(LOGIN_POST_URL, requestOptions)
+            .then(res => checkResponse(res))
+            .then(data => {
+                setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                dispatch({ type: USER_SET_CREDENTIALS, user: data.user });
+                dispatch({ type: LOGIN_SUCCESS });
+            })
+            .catch(e => {
+                console.error(e);
+                dispatch({ type: LOGIN_FAILED })
+            });
+
+    }
+
+    export const login: AppThunk = ({ email, password }: TFormData) =>
+    async (dispatch: AppDispatch) => {
         dispatch({ type: LOGIN_REQUEST })
 
         const requestOptions = {
