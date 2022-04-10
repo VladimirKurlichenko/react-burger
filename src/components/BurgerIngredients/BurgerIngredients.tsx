@@ -2,22 +2,18 @@ import React, {useRef} from 'react';
 import style from './BurgerIngredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from './Card/Card';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { SET_ACTIVE_INGREDIENT } from '../../services/actions/ingredientDetails';
 import { useHistory, useLocation } from 'react-router-dom';
-import { TIngredient} from '../../types/types';
+import {VISIBLE_INGREDIENT_DETAILS} from '../../services/actions/modals'
 
-interface IBurgerIngredients {
-    openIngredientDetails: () => void;
-  }
-
-const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
+const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    const {ingredientsData} = useSelector((state: any) => state.ingredients)
+    const {ingredientsData} = useSelector((state) => state.ingredients)
     const [current, setCurrent] = React.useState<string>('bun');
 
     const refBun = useRef<null | HTMLDivElement>(null); 
@@ -44,11 +40,11 @@ const BurgerIngredients = ({openIngredientDetails}:  IBurgerIngredients) => {
 
     const ingredientsList = (type: 'bun' | 'sauce' | 'main') => {
         return ingredientsData
-            .filter((ingredient: TIngredient) => ingredient.type === type)
-            .map((ingredient: TIngredient) => {
+            .filter((ingredient) => ingredient.type === type)
+            .map((ingredient) => {
                 const openDetails = () => {
                     dispatch({ type: SET_ACTIVE_INGREDIENT, activeIngredient: ingredient })
-                    openIngredientDetails();
+                    dispatch({ type: VISIBLE_INGREDIENT_DETAILS, value: true })
                     history.push({ pathname: `/ingredients/${ingredient._id}`, state: { background: location } })
                     console.log("Test")
                 }

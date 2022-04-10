@@ -1,3 +1,5 @@
+import { getCookie } from "./cookies";
+
 const API_URL = 'https://norma.nomoreparties.space/api/';
 export const REGISTER_POST_URL = API_URL + 'auth/register'; //POST
 export const LOGIN_POST_URL = API_URL + 'auth/login'; //POST
@@ -9,3 +11,8 @@ export const PASSWORD_FORGET_POST_URL = API_URL + 'password-reset'; // POST
 export const PASSWORD_RESET_POST_URL = API_URL + 'password-reset'; // POST
 export const GET_INGREDIENTS_URL = API_URL + 'ingredients';
 export const POST_ORDER_URL = API_URL + 'orders';
+export const GET_ORDER_URL = API_URL + 'orders';
+
+export const WS_API_URL = 'wss://norma.nomoreparties.space/orders';
+export const WS_ALL_ORDERS_URL = WS_API_URL + '/all';
+export const WS_USER_ORDERS_URL = WS_API_URL;

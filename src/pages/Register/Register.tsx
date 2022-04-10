@@ -2,7 +2,7 @@ import style from './Register.module.css';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { register } from '../../services/actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { useState } from 'react';
 
 export default function Register() {

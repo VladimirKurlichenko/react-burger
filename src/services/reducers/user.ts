@@ -1,11 +1,17 @@
-import { USER_SET_CREDENTIALS, USER_LOGOUT } from '../actions/user';
+import { USER_SET_CREDENTIALS, USER_LOGOUT, TUser } from '../actions/user';
 
-const initialState = {
+interface IState {
+    readonly username: string;
+    readonly email: string;
+  }
+  
+
+const initialState: IState = {
     username: '',
     email: ''
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUser) => {
     switch (action.type) {
         case USER_SET_CREDENTIALS: {
             return {

@@ -1,25 +1,35 @@
 import style from './IngredientDetails.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../types/hooks';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { TIngredient } from '../../types/types';
+import { TOrder } from '../../types/types';
+interface ILocationState {
+    background: Location;
+    order: TOrder;
+    readonly ingredientModal?: Location;
+}
 
 const IngredientDetails = () => {
 
-    const location = useLocation();
+    const location = useLocation<ILocationState>();
     const [ingredient, setIngredient] =  useState<TIngredient>();
     const ingredientID = location.pathname.split('/')[2];
 
-    const { ingredientsData, isLoading } = useSelector((store: any) => store.ingredients);
-    const activeIngredient = useSelector((store: any) => store.ingredientDetails.activeIngredient);
+    const { ingredientsData, isLoading } = useSelector((store) => store.ingredients);
+    const activeIngredient = useSelector((store) => store.ingredientDetails.activeIngredient);
 
     useEffect(() => {
-        if (Object.keys(activeIngredient).length === 0 && ingredientsData.length !== 0) {
-            return setIngredient(ingredientsData.find((ing: TIngredient) => ing._id === ingredientID));
+        if (activeIngredient === null) {
+            const ingFound = ingredientsData.find((ing: TIngredient) => ing._id === ingredientID);
+            if (ingFound) {
+                return setIngredient(ingFound);
+            }
         }
-        setIngredient(activeIngredient);
-    }, [ingredientsData, activeIngredient, ingredientID]);
+        if (activeIngredient !== null) {
+            setIngredient(activeIngredient);
+        }
+    }, [ingredientsData, activeIngredient, location.pathname]);
 
     console.log(ingredient, "ingredient")
 
