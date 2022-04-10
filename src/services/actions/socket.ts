@@ -1,4 +1,5 @@
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
+export const WS_CONNECTION_START_USER: 'WS_CONNECTION_START_USER' = 'WS_CONNECTION_START_USER';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
 export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR';
 export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' = 'WS_CONNECTION_CLOSED';
@@ -7,6 +8,9 @@ export const WS_SEND_MESSAGE: 'WS_SEND_MESSAGE' = 'WS_SEND_MESSAGE';
 
 export interface IWSConnectionStart {
     readonly type: typeof WS_CONNECTION_START;
+}
+export interface IWSConnectionStartUser {
+    readonly type: typeof WS_CONNECTION_START_USER;
 }
 export interface IWSConnectionSuccess {
     readonly type: typeof WS_CONNECTION_SUCCESS;
@@ -28,6 +32,7 @@ export interface IWSSendMessage {
 
 export type TSocketActions = 
     IWSConnectionStart |
+    IWSConnectionStartUser|
     IWSConnectionSuccess |
     IWSConnectionError |
     IWSConnectionClosed |

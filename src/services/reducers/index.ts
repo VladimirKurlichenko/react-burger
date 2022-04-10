@@ -25,10 +25,11 @@ import { socketMiddleware } from '../middlewares/socketMiddleware';
 import { TSocketActions } from '../actions/socket';
 import { wsReducer } from './socket';
 import {TWsActions} from '../middlewares/socketMiddleware'
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../actions/socket";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE, WS_CONNECTION_START_USER} from "../actions/socket";
 
 export const wsFeedActions: TWsActions = {
   wsFeedStart: WS_CONNECTION_START,
+  wsFeedStartUser: WS_CONNECTION_START_USER,
   onFeedSuccess: WS_CONNECTION_SUCCESS,
   onFeedError: WS_CONNECTION_ERROR,
   onFeedGetMessage: WS_GET_MESSAGE,

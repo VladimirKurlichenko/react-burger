@@ -9,7 +9,7 @@ import OrderElement from '../../components/OrderElement/OrderElement';
 import { RootState } from '../../services/reducers';
 import { TOrder } from '../../types/types';
 import { VISIBLE_ORDERS_DETAILS } from '../../services/actions/modals';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/socket';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_CONNECTION_START_USER } from '../../services/actions/socket';
 
 export default function ProfileOrders() {
     const history = useHistory();
@@ -20,7 +20,7 @@ export default function ProfileOrders() {
     const [orders, setOrders] = useState<Array<TOrder>>([]);
 
     useEffect(() => {
-        dispatch({ type: WS_CONNECTION_START, wsUrl: WS_USER_ORDERS_URL })
+        dispatch({ type: WS_CONNECTION_START_USER, wsUrl: WS_USER_ORDERS_URL })
         return () => {dispatch({ type: WS_CONNECTION_CLOSED })}
     }, [dispatch])
 

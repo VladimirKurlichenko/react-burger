@@ -13,6 +13,6 @@ export const GET_INGREDIENTS_URL = API_URL + 'ingredients';
 export const POST_ORDER_URL = API_URL + 'orders';
 export const GET_ORDER_URL = API_URL + 'orders';
 
-const WS_API_URL = 'wss://norma.nomoreparties.space/orders';
+export const WS_API_URL = 'wss://norma.nomoreparties.space/orders';
 export const WS_ALL_ORDERS_URL = WS_API_URL + '/all';
-export const WS_USER_ORDERS_URL = WS_API_URL + '?token=' + getCookie('accessToken');
+export const WS_USER_ORDERS_URL = WS_API_URL;
