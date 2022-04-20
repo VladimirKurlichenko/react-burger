@@ -1,6 +1,6 @@
 
 <div align="center">
-    <a href="https://nikba-creative-studio.github.io/react-burger/">GitHub Pages</a>
+    <a href="https://vladimirkurlichenko.github.io/react-burger/">GitHub Pages</a>
 </div>
 
 ## Установка
