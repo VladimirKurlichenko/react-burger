@@ -8,7 +8,6 @@ import { ingredientDetailsReducer } from './ingredientDetails';
 import { cartIngredientReducer } from './cartIngredient';
 import {orderDetailsReducer } from './orderDetails'
 import { forgotPasswordReducer } from './forgotPassword';
-import { resetPasswordReducer } from './resetPassword';
 import { userReducer } from './user';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -46,7 +45,6 @@ const rootReducer = combineReducers({
     cartIngredient: cartIngredientReducer,
     orderDetails: orderDetailsReducer,
     forgotPassword: forgotPasswordReducer,
-    resetPassword: resetPasswordReducer,
     user: userReducer,
     ws: wsReducer,
 })

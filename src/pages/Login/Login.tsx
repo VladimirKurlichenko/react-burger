@@ -54,7 +54,7 @@ export default function Login() {
 
                 </div>
 
-                <div className={style.formChild}>
+                <div className={style.formChild} data-cy="buttonInput">
                     <Button
                         type="primary"
                         size="large"

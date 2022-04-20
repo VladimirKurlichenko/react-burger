@@ -12,6 +12,7 @@ const AppHeader = () => {
                         icon={"BurgerIcon"}
                         text={"Конструстор"}/>
                     <Button
+                        data-cy='feed-page-link'
                         icon={"ListIcon"}
                         text={"Лента заказов"}/>
                 </nav>
