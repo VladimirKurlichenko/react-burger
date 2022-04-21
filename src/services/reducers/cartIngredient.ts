@@ -39,8 +39,8 @@ export const cartIngredientReducer = (state = initialState, action : TCartAction
           ...state,
           сartIngredients: update(state.сartIngredients, {
             $splice: [
-              [action.ingredient.index, 1],
-              [action.dropIndex, 0, action.ingredient.item],
+              [action.ingredients.index, 1],
+              [action.dropIndex, 0, action.ingredients.item],
             ] as any,
           })
         };

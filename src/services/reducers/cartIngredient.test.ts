@@ -61,21 +61,21 @@ describe('', () => {
             сartIngredients: [ingredientTestExample, ingredientTestExample],
             bunIngredients: [],
         }
-        const ingredient = {
+        const ingredients = {
             item: ingredientTestExample, 
             index: 1
         }
         const dropIndex = 0;
         expect(reducer(prevState, {
             type: MOVE_CART_INGREDIENT,
-            ingredient: ingredient,
+            ingredients: ingredients,
             dropIndex: dropIndex
         })).toEqual({
             ...initialState,
             сartIngredients: update(prevState.сartIngredients, {
                 $splice: [
-                  [ingredient.index, 1],
-                  [dropIndex, 0, ingredient.item],
+                  [ingredients.index, 1],
+                  [dropIndex, 0, ingredients.item],
                 ]
               })
         })

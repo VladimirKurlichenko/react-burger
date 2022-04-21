@@ -24,7 +24,7 @@ export interface IDeleteCartIngredient {
 
 export interface IMoveCartIngredient {
     readonly type: typeof MOVE_CART_INGREDIENT;
-    readonly ingredient: { item?: TIngredient, index?: number };
+    readonly ingredients: { item?: {}, index?: number };
     readonly dropIndex: number;
 }
 
