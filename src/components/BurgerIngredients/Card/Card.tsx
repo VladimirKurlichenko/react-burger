@@ -35,6 +35,7 @@ export default function Card({ item, openDetails }: TCardProps) {
       className={`${style.cardItem} pl-2 pr-2`}
       onClick={openDetails}
       key={item._id}
+      data-cy={item._id}
       style={{ opacity }}>
       
       {

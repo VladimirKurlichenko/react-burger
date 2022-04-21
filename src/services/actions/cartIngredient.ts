@@ -1,5 +1,5 @@
 import { TIngredient } from "../../types/types";
-
+import { TBun } from "../../types/types";
 
 export const ADD_CART_INGREDIENT = 'ADD_CART_INGREDIENT';
 export const DELETE_CART_INGREDIENT = 'DELETE_CART_INGREDIENT';
@@ -24,7 +24,7 @@ export interface IDeleteCartIngredient {
 
 export interface IMoveCartIngredient {
     readonly type: typeof MOVE_CART_INGREDIENT;
-    readonly ingredients: TIngredient & { item?: {}, index?: number };
+    readonly ingredients: { item?: {}, index?: number };
     readonly dropIndex: number;
 }
 
@@ -38,3 +38,8 @@ export type TCartActions =
     IDeleteCartIngredient |
     IMoveCartIngredient |
     IClearCartIngredient;
+
+export const addCartIngredientBun = (ingredient: TBun) => ({
+        type: ADD_CART_INGREDIENT_BUN, 
+        ingredient: ingredient    
+    })

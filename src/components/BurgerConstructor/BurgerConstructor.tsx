@@ -111,7 +111,7 @@ export default function BurgerConstructor() {
       <div className={`${style.constructor} mb-4`} >
         {bun ?
           (
-            <div ref={bunDropTop} className={`${style.ingredient} mb-2 mt-2 ml-6` } >
+            <div ref={bunDropTop} data-cy="burger-constructor-bun-top" className={`${style.ingredient} mb-2 mt-2 ml-6` } >
               <ConstructorElement type='top'
                 isLocked={true}
                 text={`${bun.name} (верх)`}
@@ -120,7 +120,7 @@ export default function BurgerConstructor() {
               />
             </div>
           ) : (
-            <div ref={bunDropTop} className={`${style.ingredient} mb-2 mt-2 ml-6` }>
+            <div ref={bunDropTop} data-cy="burger-constructor-bun-top" className={`${style.ingredient} mb-2 mt-2 ml-6` }>
               <ConstructorElement 
                 type='top'
                 isLocked={true}
@@ -132,7 +132,7 @@ export default function BurgerConstructor() {
           )
         }
 
-        <div className={style.ingredients} ref={dropTarget} >
+        <div className={style.ingredients} ref={dropTarget} data-cy='burger-constructor-middle' >
           {items.map((ingredient, index) => {
             return (
               <div className={`${style.ingredient} mb-2 mt-2`} key={ingredient.key} >
@@ -167,14 +167,16 @@ export default function BurgerConstructor() {
         }
       </div>
 
-      <div className={style.orderSection}>
+      <div className={style.orderSection} data-cy="send-order">
         <span className={`${style.price} m-5`}>
           <p className='text text_type_digits-medium mr-2'>{orderCost}</p>
           <CurrencyIcon type='primary' />
         </span>
         <Button type='primary'
           size='medium'
-          onClick={orderBurger}>
+          onClick={orderBurger}
+          data-cy='buttonOrder'
+          >
           Оформить заказ
         </Button>
       </div>

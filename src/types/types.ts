@@ -27,10 +27,12 @@ export type TIngredientsIDs = Array<string>;
 
 
 export type TOrder = {
+    _id: string;
     status: string;
     name: string;
     number: string;
-    createdAt: Date;
+    createdAt: string;
+    updatedAt: string;
     ingredients: Array<string>;
 }
 
@@ -48,4 +50,10 @@ export type TFormData = {
     password?: string;
     token?: string
 }
+
+
+export type TBun = TIngredient & { 
+    type: 'bun'
+}
+
 

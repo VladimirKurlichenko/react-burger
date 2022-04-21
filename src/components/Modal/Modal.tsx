@@ -27,7 +27,7 @@ const Modal = ({ children, onClose }: IModalProps) => {
             <>
                 <ModalOverlay onClose={onClose}/>
                 <div className={style.modal}>
-                    <span onClick={onClose} className={`${style.modalCloseIcon} mt-4 mr-4`}>
+                    <span onClick={onClose} className={`${style.modalCloseIcon} mt-4 mr-4` } data-cy="modal-close">
                         <CloseIcon type="primary" />
                     </span>
                     {children}
